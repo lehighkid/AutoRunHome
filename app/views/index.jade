@@ -22,7 +22,7 @@ block content
               a(href='#contact') Contact
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | Dropdown 
+                | Dropdown
                 b.caret
               ul.dropdown-menu
                 li
@@ -50,11 +50,10 @@ block content
         h1 Buttons
       div#gDoor toggle Garage Door
       div#msg
-      for outlet in outlets
-        h1 #{outlet.name}
-        div.olet #{outlet.oncode}
-        div.olet #{outlet.offcode}      
-      
+      for rfdevice in rfdevices
+        h1 #{rfdevice.name}
+        div.rfdev(id=rfdevice.id, codes=rfdevice.codes) #{rfdevice.state}
+
       p
         button.btn.btn-lg.btn-default(type='button') Default
         button.btn.btn-lg.btn-primary(type='button') Primary
@@ -94,7 +93,7 @@ block content
         h1 Dropdown menus
       .dropdown.theme-dropdown.clearfix
         a#dropdownMenu1.sr-only.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
-          | Dropdown 
+          | Dropdown
           b.caret
         ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
           li.active(role='presentation')
@@ -127,7 +126,7 @@ block content
                 a(href='#contact') Contact
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown')
-                  | Dropdown 
+                  | Dropdown
                   b.caret
                 ul.dropdown-menu
                   li
@@ -162,7 +161,7 @@ block content
                 a(href='#contact') Contact
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown')
-                  | Dropdown 
+                  | Dropdown
                   b.caret
                 ul.dropdown-menu
                   li
