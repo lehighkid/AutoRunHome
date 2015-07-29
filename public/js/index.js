@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    //$('.rfdev').bootstrapSwitch();
+
     var socket = io.connect();
 
     $('#gDoor').click(function() {
@@ -8,6 +10,7 @@ $(document).ready(function() {
     });
 
     $('.rfdev').click(function() {
+      alert("state changed");
       var device = {};
       device.id = $(this).attr("id");
       device.codes = $(this).attr("codes").split(",");
@@ -26,6 +29,8 @@ $(document).ready(function() {
       var resp = JSON.parse(data);
       var id = resp.id;
       var state = resp.state;
+      //$("#"+id).prop("checked", state);
       $("#"+id).text(state);
+      //$("#"+id).attr("state") = state;
     });
 });
