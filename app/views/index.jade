@@ -52,8 +52,11 @@ block content
       div#msg
       for rfdevice in rfdevices
         h1 #{rfdevice.name}
-          // input.rfdev(id=rfdevice.id, type='checkbox', codes=rfdevice.codes, name=rfdevice.name, devstate=rfdevice.state)
-        div.rfdev(id=rfdevice.id, codes=rfdevice.codes) #{rfdevice.state}
+        .checkbox
+          label
+          input.rfdev(id=rfdevice.id, type='checkbox', name=rfdevice.name, checked=(rfdevice.state?"checked":undefined), data-state="#{rfdevice.state}", data-codes!=("#{rfdevice.codes}"))
+          //|   #{rfdevice.name} - #{rfdevice.state}
+
       p
         button.btn.btn-lg.btn-default(type='button') Default
         button.btn.btn-lg.btn-primary(type='button') Primary

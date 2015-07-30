@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    //$('.rfdev').bootstrapSwitch();
+    $('.rfdev').bootstrapSwitch();
 
     var socket = io.connect();
 
@@ -9,14 +9,22 @@ $(document).ready(function() {
       socket.emit('gDoor', selectedID);
     });
 
+  $('.rfdev').on('switchChange.bootstrapSwitch', function(event, state) {
+    var device = {};
+    device.id = this.getAttribute("id");
+    device.codes = this.getAttribute("data-codes").split(",");
+    device.state = this.getAttribute("data-state");
+    var json = JSON.stringify(device);
+    socket.emit('sendrfcode', json);
+
+  });
+
     $('.rfdev').click(function() {
-      alert("state changed");
       var device = {};
       device.id = $(this).attr("id");
-      device.codes = $(this).attr("codes").split(",");
-      device.state = $(this).text();
+      device.codes = $(this).attr("data-codes").split(",");
+      device.state = $(this).attr("data-state");
       var json = JSON.stringify(device);
-      alert(json);
       socket.emit('sendrfcode', json);
     });
 
@@ -29,8 +37,11 @@ $(document).ready(function() {
       var resp = JSON.parse(data);
       var id = resp.id;
       var state = resp.state;
-      //$("#"+id).prop("checked", state);
-      $("#"+id).text(state);
-      //$("#"+id).attr("state") = state;
+      //alert(state);
+      callbacktriggered = 1;
+      if($("#"+id).bootstrapSwitch("state")!=state){
+        $("#" + id).bootstrapSwitch('state', state, true);
+      }
+      $("#"+id).attr("data-state", state);
     });
 });

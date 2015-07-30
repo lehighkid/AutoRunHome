@@ -36,7 +36,7 @@ function gDoor() {
 }
 
 function sendCode(code, onsuccess) {
-  console.log('sudo /home/pi/commands/rfoutlet/codesend ' + code);
+  console.log(code);
 
 	var child = exec('sudo /home/pi/commands/rfoutlet/codesend ' + code);
 
@@ -86,8 +86,9 @@ module.exports.respond = function(endpoint, socket){
 	socket.on('sendrfcode', function(data){
 		//sendCode(data);
     var device = JSON.parse(data);
-    var state = device.state.toLowerCase() === 'true';
-    sendCode(device.codes[+state], function(){updateState(device.id, !state, endpoint)});
+    var state = (device.state.toLowerCase() == "false");
+    console.log(state);
+    sendCode(device.codes[+state], function(){updateState(device.id, state, endpoint)});
 	});
 };
 
