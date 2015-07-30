@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('.rfdev').bootstrapSwitch();
+    var rfdevs = $('.rfdev').bootstrapSwitch();
 
     var socket = io.connect();
 
@@ -9,7 +9,7 @@ $(document).ready(function() {
       socket.emit('gDoor', selectedID);
     });
 
-  $('.rfdev').on('switchChange.bootstrapSwitch', function(event, state) {
+  rfdevs.on('switchChange.bootstrapSwitch', function(event, state) {
     var device = {};
     device.id = this.getAttribute("id");
     device.codes = this.getAttribute("data-codes").split(",");
@@ -18,15 +18,6 @@ $(document).ready(function() {
     socket.emit('sendrfcode', json);
 
   });
-
-    $('.rfdev').click(function() {
-      var device = {};
-      device.id = $(this).attr("id");
-      device.codes = $(this).attr("data-codes").split(",");
-      device.state = $(this).attr("data-state");
-      var json = JSON.stringify(device);
-      socket.emit('sendrfcode', json);
-    });
 
     socket.on('gDoorToggled', function(msg) {
 	    //alert('gDoorToggled');
@@ -37,11 +28,10 @@ $(document).ready(function() {
       var resp = JSON.parse(data);
       var id = resp.id;
       var state = resp.state;
-      //alert(state);
-      callbacktriggered = 1;
-      if($("#"+id).bootstrapSwitch("state")!=state){
-        $("#" + id).bootstrapSwitch('state', state, true);
+      var rfdev = $("#"+id);
+      if(rfdev.bootstrapSwitch("state")!=state){
+        rfdev.bootstrapSwitch('state', state, true);
       }
-      $("#"+id).attr("data-state", state);
+      rfdev.attr("data-state", state);
     });
 });

@@ -87,13 +87,12 @@ module.exports.respond = function(endpoint, socket){
 		//sendCode(data);
     var device = JSON.parse(data);
     var state = (device.state.toLowerCase() == "false");
-    console.log(state);
     sendCode(device.codes[+state], function(){updateState(device.id, state, endpoint)});
 	});
 };
 
 router.get('/', function (req, res, next) {
-  Rfdevice.find(function (err, rfdevices) {
+  Rfdevice.find({ $query: {inuse : true}, $orderby: { sortorder : 1 } }, function (err, rfdevices) {
     if (err) return next(err);
     res.render('index', {
       title: 'AutoRunHome - Control Your Home',

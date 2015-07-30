@@ -1,8 +1,19 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
 }
 
-a {
-  color: #00B7FF;
+body {
+  padding: 25px;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -25px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+  height: 25px; /* .push must be the same height as .footer */
 }

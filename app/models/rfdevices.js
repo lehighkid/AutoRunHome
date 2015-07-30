@@ -10,6 +10,8 @@ var RfdeviceSchema = new Schema({
   , type: String
   , codes: [Number]
   , state: Boolean
+  , remotenum: Number
+  , inuse: Boolean
 });
 
 RfdeviceSchema.virtual('date')
