@@ -1,7 +1,9 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
+  moment = require('moment'),
   Rfdevice = mongoose.model('Rfdevice'),
+  Rfstatechange = mongoose.model('Rfstatechange'),
   bodyParser = require('body-parser'), //parses information from POST
   methodOverride = require('method-override'), //used to manipulate POST
   gpio = require('onoff').Gpio,
@@ -25,13 +27,13 @@ function gDoor() {
 	var gd = new gpio(16, 'out');
 
 	var iv = setInterval(function(){
-        	gd.writeSync(gd.readSync() === 0 ? 0 : 1)
+    gd.writeSync(gd.readSync() === 0 ? 0 : 1)
 	}, 500);
 
 	setTimeout(function() {
-    		clearInterval(iv); // Stop blinking
-    		gd.writeSync(0);  // Turn LED off.
-   		gd.unexport();    // Unexport GPIO and free resources
+    clearInterval(iv);
+    gd.writeSync(0);
+    gd.unexport();
 	}, 5000);
 }
 
@@ -59,22 +61,41 @@ function sendCode(code, onsuccess) {
 }
 
 function updateState(id, state, endpoint) {
-  Rfdevice.findById(id, function (err, rfdevice) {
+  Rfdevice.findById(id, function(err, rfdevice) {
     if (err) return next(err);
-    rfdevice.state = state;
-    rfdevice.save(function (err) {
+    rfstatechange = new Rfstatechange({
+      _rfdevice: rfdevice._id
+      , state: state
+    });
+    rfstatechange.save(function(err){
       if (err) return next(err);
-      console.log("State updated for " + id);
-      var resp = {};
-      resp.id = id;
-      resp.state = state;
-      var data = JSON.stringify(resp);
-      endpoint.emit('stateUpdated', data)
+      rfdevice.state = state;
+      rfdevice.statechanged = new Date();
+      rfdevice.save(function(err) {
+        if (err) return next(err);
+        console.log("State updated for " + id);
+        var resp = {};
+        resp.id = id;
+        resp.state = state;
+        resp.statechanged = moment(rfdevice.statechanged).format("MM/DD/YY HH:mm:ss");
+        var data = JSON.stringify(resp);
+        endpoint.emit('stateUpdated', data)
+      });
     })
   });
 }
 
 module.exports.respond = function(endpoint, socket){
+
+  socket.on('gDoorOpen', function(data){
+    var msg = 'Garage door open event emit fired with ' + data;
+    console.log(msg);
+  });
+
+  socket.on('gDoorDown', function(data){
+    var msg = 'Garage door down event emit fired with ' + data;
+    console.log(msg);
+  });
 
 	socket.on('gDoor', function(data){
 		gDoor();

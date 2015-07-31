@@ -10,6 +10,7 @@ var RfdeviceSchema = new Schema({
   , type: String
   , codes: [Number]
   , state: Boolean
+  , statechanged: Date
   , remotenum: Number
   , inuse: Boolean
 });

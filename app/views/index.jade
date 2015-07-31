@@ -11,6 +11,10 @@ block content
       .checkbox
         label
         input.rfdev(id=rfdevice.id, type='checkbox', name=rfdevice.name, checked=(rfdevice.state?"checked":undefined), data-state="#{rfdevice.state}", data-codes!=("#{rfdevice.codes}"))
+        div(class="text-muted rfdevchng")
+          small Last switched: &nbsp;
+            em #{moment(rfdevice.statechanged).format("MM/DD/YY HH:mm:ss")}
+
   // /container
 
 block clientjs
