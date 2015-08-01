@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var CommandSchema = new Schema({
 	  name: String
 	, type: String
-  	, path: String
+  , path: String
 	, language: String
 	, requiressudo: Boolean
 });

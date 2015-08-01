@@ -1,14 +1,12 @@
 /**
- * Created by admin on 7/29/15.
+ * Created by admin on 7/31/15.
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var RfdeviceSchema = new Schema({
-    name: String
+var GaragedoorSchema = new Schema({
+  name: String
   , description: String
-  , type: String
-  , codes: [Number]
   , state: Boolean
   , statechanged: Date
   , remotenum: Number
@@ -16,9 +14,9 @@ var RfdeviceSchema = new Schema({
   , sortorder: Number
 });
 
-RfdeviceSchema.virtual('date')
+GaragedoorSchema.virtual('date')
   .get(function(){
     return this._id.getTimestamp();
   });
 
-mongoose.model('Rfdevice', RfdeviceSchema);
+mongoose.model('Garagedoor', GaragedoorSchema);

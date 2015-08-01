@@ -4,16 +4,16 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var RfstatechangeSchema = new Schema({
-    _rfdevice: { type: Schema.ObjectId, ref: 'Rfdevice'}
+var GaragedoorstatechangeSchema = new Schema({
+    _garagedoor: { type: Schema.ObjectId, ref: 'garagedoor'}
   , changed: { type: Date, default: Date.now}
   , state: Boolean
 
 });
 
-RfstatechangeSchema.virtual('date')
+GaragedoorstatechangeSchema.virtual('date')
   .get(function(){
     return this._id.getTimestamp();
   });
 
-mongoose.model('Rfstatechange', RfstatechangeSchema);
+mongoose.model('Garagedoorstatechange', GaragedoorstatechangeSchema);

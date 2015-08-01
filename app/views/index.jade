@@ -3,9 +3,14 @@ extends layout
 block content
   .container.theme-showcase(role='main')
     .page-header
-      h1 Buttons
-    div#gDoor toggle Garage Door
-    div#msg
+    for garagedoor in garagedoors
+      h1 #{garagedoor.name}
+      .checkbox
+        label
+        input.gdoor(id=garagedoor.id, type='checkbox', name=garagedoor.name, checked=(garagedoor.state ? "checked" : undefined), data-state="#{garagedoor.state}")
+        div(class="text-muted gdoordevchng")
+          small Last switched: &nbsp;
+            em #{moment(garagedoor.statechanged).format("MM/DD/YY HH:mm:ss")}
     for rfdevice in rfdevices
       h1 #{rfdevice.name}
       .checkbox
@@ -14,7 +19,6 @@ block content
         div(class="text-muted rfdevchng")
           small Last switched: &nbsp;
             em #{moment(rfdevice.statechanged).format("MM/DD/YY HH:mm:ss")}
-
   // /container
 
 block clientjs
