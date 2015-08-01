@@ -2,23 +2,29 @@ extends layout
 
 block content
   .container.theme-showcase(role='main')
-    .page-header
-    for garagedoor in garagedoors
-      h1 #{garagedoor.name}
-      .checkbox
-        label
-        input.gdoor(id=garagedoor.id, type='checkbox', name=garagedoor.name, checked=(garagedoor.state ? "checked" : undefined), data-state="#{garagedoor.state}")
-        div(class="text-muted gdoordevchng")
-          small Last switched: &nbsp;
-            em #{moment(garagedoor.statechanged).format("MM/DD/YY HH:mm:ss")}
-    for rfdevice in rfdevices
-      h1 #{rfdevice.name}
-      .checkbox
-        label
-        input.rfdev(id=rfdevice.id, type='checkbox', name=rfdevice.name, checked=(rfdevice.state?"checked":undefined), data-state="#{rfdevice.state}", data-codes!=("#{rfdevice.codes}"))
-        div(class="text-muted rfdevchng")
-          small Last switched: &nbsp;
-            em #{moment(rfdevice.statechanged).format("MM/DD/YY HH:mm:ss")}
+    .row
+      .col-sm-5
+        .page-header
+          h1 RF Devices
+        for rfdevice in rfdevices
+          h3 #{rfdevice.name}
+          .checkbox
+            label
+            input.rfdev(id=rfdevice.id, type='checkbox', name=rfdevice.name, checked=(rfdevice.state ? "checked" : undefined), data-state="#{rfdevice.state}", data-codes!=("#{rfdevice.codes}"), data-on-color="success")
+            div(class="text-muted rfdevchng")
+              small Last switched: &nbsp;
+                em #{moment(rfdevice.statechanged).format("MM/DD/YY HH:mm:ss")}
+      .col-sm-5
+        .page-header
+          h1 Garage Doors
+        for garagedoor in garagedoors
+          h3 #{garagedoor.name}
+          .checkbox
+            label
+            input.gdoor(id=garagedoor.id, type='checkbox', name=garagedoor.name, checked=(garagedoor.state ? "checked" : undefined), data-state="#{garagedoor.state}", data-on-text="Open", data-off-text="Closed", data-on-color="success")
+            div(class="text-muted gdoordevchng")
+              small Last switched: &nbsp;
+                em #{moment(garagedoor.statechanged).format("MM/DD/YY HH:mm:ss")}
   // /container
 
 block clientjs
