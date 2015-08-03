@@ -7,18 +7,18 @@ var gpio = require('onoff').Gpio;
 
 module.exports.init = function(endpoint, socket){
 
-  var doorDownIf = new gpio(22, 'in', 'falling', {debounceTimeout: 2500});
-  var doorOpenIf = new gpio(25, 'in', 'falling', {debounceTimeout: 2500});
+  var doorDownIf = new gpio(22, 'in', 'both', {debounceTimeout: 300});
+  var doorOpenIf = new gpio(25, 'in', 'both', {debounceTimeout: 300});
 
   doorDownIf.watch(function(err, value) {
     if (err) return next(err);
-    console.log("c");
+    console.log("c-" + value);
     //endpoint.emit('gDoorDown', value);
   });
 
   doorOpenIf.watch(function(err, value) {
     if (err) return next(err);
-    console.log("o");
+    console.log("o-" + value);
     //endpoint.emit('gDoorOpen', value);
   });
 

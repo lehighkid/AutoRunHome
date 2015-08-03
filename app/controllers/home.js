@@ -29,6 +29,7 @@ function gdOperate(id, onsuccess) {
   //TODO:  add logic based on garage door id
   //TODO:  wrap logic in try/catch block
   //TODO:  add logic to read pins
+  //TODO:  cleanup timer loops
 	var gd = new gpio(16, 'out');
 
 	var iv = setInterval(function(){
@@ -39,7 +40,7 @@ function gdOperate(id, onsuccess) {
     clearInterval(iv);
     gd.writeSync(0);
     gd.unexport();
-	}, 5000);
+	}, 501);
 
   onsuccess();
 }

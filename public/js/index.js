@@ -5,6 +5,18 @@ $(document).ready(function() {
 
   var socket = io.connect();
 
+  $('.togcam').click(function(){
+    var cam = $(this).parent().find(".wcam");
+    if ($(this).attr("alt") == "show camera") {
+      cam.attr("src", cam.attr("data-src"));
+      $(this).attr("alt", "hide camera");
+    } else {
+      cam.attr("src", '');
+      $(this).attr("alt", "show camera");
+    }
+
+  });
+
   gdoors.on('switchChange.bootstrapSwitch', function(event, state) {
     var door = {};
     door.id = this.getAttribute("id");

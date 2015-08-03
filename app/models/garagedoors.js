@@ -12,6 +12,8 @@ var GaragedoorSchema = new Schema({
   , remotenum: Number
   , inuse: Boolean
   , sortorder: Number
+  , webcamurl: String
+  , haswebcam: Boolean
 });
 
 GaragedoorSchema.virtual('date')
