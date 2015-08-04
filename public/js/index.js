@@ -10,7 +10,9 @@ $(document).ready(function() {
     if ($(this).attr("alt") == "show camera") {
       cam.attr("src", cam.attr("data-src"));
       $(this).attr("alt", "hide camera");
+      cam.show();
     } else {
+      cam.hide();
       cam.attr("src", '');
       $(this).attr("alt", "show camera");
     }
