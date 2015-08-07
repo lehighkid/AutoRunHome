@@ -8,8 +8,8 @@ var express = require('express'),
   Garagedoorstatechange = mongoose.model('Garagedoorstatechange'),
   bodyParser = require('body-parser'), //parses information from POST
   methodOverride = require('method-override'), //used to manipulate POST
-  gDoor = require('./../lib/gDoor.js'),
-  rfDevice = require('./../lib/rfDevice.js');
+  gpio = require('onoff').Gpio,
+  exec = require('child_process').exec;
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(methodOverride(function(req, res){
@@ -25,7 +25,25 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
+function gdOperate(id, onsuccess) {
+  //TODO:  add logic based on garage door id
+  //TODO:  wrap logic in try/catch block
+  //TODO:  add logic to read pins
+  //TODO:  cleanup timer loops
+	var gd = new gpio(16, 'out');
 
+	var iv = setInterval(function(){
+    gd.writeSync(gd.readSync() === 0 ? 0 : 1)
+	}, 500);
+
+	setTimeout(function() {
+    clearInterval(iv);
+    gd.writeSync(0);
+    gd.unexport();
+	}, 501);
+
+  onsuccess();
+}
 
 function gdupdateState(id, state, endpoint) {
   Garagedoor.findById(id, function(err, garagedoor) {
@@ -50,6 +68,28 @@ function gdupdateState(id, state, endpoint) {
       });
     })
   });
+}
+
+function rfsendCode(code, onsuccess) {
+  //TODO:  wrap logig in try/catch block
+  //TODO:  interpret exec results properly
+  var child = exec('sudo /home/pi/commands/rfoutlet/codesend ' + code);
+
+	// listen for outputs
+	child.stdout.on('data', function(data) {
+    console.log('stdout: ' + data);
+    onsuccess();
+	});
+
+	// listen for errors
+	child.stderr.on('data', function(data) {
+    		console.log('stdout: ' + data);
+	});
+
+	// listen for close
+	child.on('close', function(code) {
+    		console.log('closing code: ' + code);
+	});
 }
 
 function rfupdateState(id, state, endpoint) {
@@ -82,16 +122,14 @@ module.exports.respond = function(endpoint, socket){
   socket.on('gdtoggle', function(data){
     var door = JSON.parse(data);
     var state = (door.state.toLowerCase() == "false");
-    //gdOperate(door.id, function(){gdupdateState(door.id, state, endpoint)});
-    //gDoor.operate(door.id, function(){gdupdateState(door.id, state, endpoint)});
+    gdOperate(door.id, function(){gdupdateState(door.id, state, endpoint)});
 	});
 
 	socket.on('rfsendcode', function(data){
     var device = JSON.parse(data);
     var state = (device.state.toLowerCase() == "false");
-    //rfsendCode(device.codes[+state], function(){rfupdateState(device.id, state, endpoint)});
-	  rfDevice.sendcode(device.codes[+state], cbcomplete = function(){rfupdateState(device.id, state, endpoint)});
-  });
+    rfsendCode(device.codes[+state], function(){rfupdateState(device.id, state, endpoint)});
+	});
 };
 
 router.get('/', function (req, res, next) {

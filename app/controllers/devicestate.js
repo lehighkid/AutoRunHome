@@ -16,8 +16,7 @@ router.route('/:device_id/:device_state')
     Devicestate.create(req.params.device_id, req.params.device_state, function(err, devicestate) {
         if (err) return next(err);
         res.json(devicestate);
-      }
-    );
+      });
   });
 
 // get device state by device id
