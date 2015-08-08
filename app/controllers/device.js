@@ -8,9 +8,9 @@ var Device = mongoose.model('Device');
 
 // Define routes handling profile requests
 
-module.exports = function (app) {
+function init(app) {
   app.use('/device', router);
-};
+}
 
 router.route('/:device_id')
   // get device by id
@@ -63,3 +63,6 @@ router.route('/')
     );
   });
 
+module.exports = {
+  init: init
+};

@@ -9,67 +9,57 @@ var Devicestate = mongoose.model('Devicestate');
 var gDoor = require('./../lib/gDoor.js');
 var rfDevice = require('./../lib/rfDevice.js');
 var moment = require('moment');
+var devicestateController = require('./devicestate');
 
-module.exports = function (app) {
+function init(app) {
   app.use('/deviceoperate', router);
-};
+}
 
 var _endpoint;
-var _socket;
 
-module.exports.respond = function(endpoint, socket){
+function respond(endpoint, socket){
   _endpoint = endpoint;
-  _socket = socket;
-};
 
-//TODO:
-// 1) move redundant code into a separate function for updating state
-// 2) add logic to interpret 'result' should be set to 0 in both cases
-// 3) add logic for other types - setup globally
-// 4) add listener function for events to move out of home controller
+  socket.on('deviceoperate', function(data){
+    deviceoperate(data);
+  });
+}
+
+function deviceoperate(deviceid, cb){
+  Device.search(deviceid, function (err, device) {
+    if (err) return next(err);
+    // garage door logic
+    if (device.type === "gDoor") {
+      gDoor.operate(device.id, function (err, result) {
+        if (err) return next(err);
+      });
+    }
+    // rf device logic
+    else if (device.type === "rfDevice") {
+      rfDevice.sendcode(device.codes[1 - device.state], function (err, result) {
+        if (err) return next(err);
+      });
+    }
+  // update and log device state change
+  devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+    if (err) return next(err);
+    if (cb) return cb(err, resp);
+  });
+});
+}
 
 // set command to operate device
 router.route('/:device_id')
   // get device type for id
   .get(function(req, res) {
-    var deviceid = req.params.device_id;
-    Device.search(deviceid, function (err, device) {
-      if (err) return next(err);
-      var devicestate = !device.state;
-
-      // garage door logic
-      if (device.type === "gDoor") {
-        gDoor.operate(device.id, function (err, result) {
-          if (err) return next(err);
-          Devicestate.create(deviceid, devicestate, function(err, newdevicestate) {
-            if (err) return next(err);
-            var resp = {};
-            resp.id = deviceid;
-            resp.state = devicestate;
-            resp.statechanged = moment(newdevicestate.changed).format("MM/DD/YY HH:mm:ss");
-            var data = JSON.stringify(resp);
-            _endpoint.emit('gdstateupdated', data);
-            res.json(newdevicestate);
-          });
-        });
-      }
-
-      // rf device logic
-      if (device.type === "rfDevice") {
-        rfDevice.sendcode(device.codes[+devicestate], function (err, result) {
-          if (err) return next(err);
-          Devicestate.create(deviceid, devicestate, function(err, newdevicestate) {
-            if (err) return next(err);
-            var resp = {};
-            resp.id = deviceid;
-            resp.state = devicestate;
-            resp.statechanged = moment(newdevicestate.changed).format("MM/DD/YY HH:mm:ss");
-            var data = JSON.stringify(resp);
-            _endpoint.emit('rfstateupdated', data);
-            res.json(newdevicestate);
-          });
-        });
-      }
-      //else res.json("operation could not be completed");
-    });
+      deviceoperate(req.params.device_id, function(err, resp){
+        if (err) return next(err);
+        res.json(resp);
+      });
   });
+
+module.exports = {
+  init: init,
+  respond: respond,
+  deviceoperate: deviceoperate
+};

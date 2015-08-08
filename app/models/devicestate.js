@@ -28,6 +28,7 @@ DevicestateSchema.statics.create = function create(deviceid, state, cb) {
     state: state,
     changed: new Date()
   });
+
   newdevicestate.save(function(err) {
     if (err) return next(err);
     Device.updateState(deviceid, state, newdevicestate.changed);

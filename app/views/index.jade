@@ -3,32 +3,22 @@ extends layout
 block content
   .container.theme-showcase(role='main')
     .row
-      .col-sm-5
-        .page-header
-          h1 RF Devices
-        for rfdevice in rfdevices
-          h3 #{rfdevice.name}
-          .checkbox
-            label
-            input.rfdev(id=rfdevice.id, type='checkbox', name=rfdevice.name, checked=(rfdevice.state ? "checked" : undefined), data-state="#{rfdevice.state}", data-codes!=("#{rfdevice.codes}"), data-on-color="success")
-            div(class="text-muted rfdevchng")
-              small Last switched: &nbsp;
-                em #{moment(rfdevice.statechanged).format("MM/DD/YY HH:mm:ss")}
-      .col-sm-5
-        .page-header
-          h1 Garage Doors
-        for garagedoor in garagedoors
-          div(data-id=garagedoor.id)
-            h3(style="display:inline;") #{garagedoor.name}
-            unless "#{garagedoor.haswebcam}" == false
-              img.togcam(src="/img/webcam.png" alt="show camera")
-            .checkbox
-              label
-              input.gdoor(id=garagedoor.id, type='checkbox', name=garagedoor.name, checked=(garagedoor.state ? "checked" : undefined), data-state="#{garagedoor.state}", data-on-text="Open", data-off-text="Closed", data-on-color="success")
-              div(class="text-muted gdoordevchng")
-                small Last switched: &nbsp;
-                  em #{moment(garagedoor.statechanged).format("MM/DD/YY HH:mm:ss")}
-              iframe.wcam(style="display:none;", width='300', height='166', scrolling='no', frameborder='no', src='', data-src=garagedoor.webcamurl)
+    for devicetype in devices
+      for type in devicetype._id
+        .col-sm-5
+          .page-header
+              h2 #{type.type}
+            for device in devicetype.devices
+              h3(style="display:inline;") #{device.name}
+              unless device.webcamurl == "false"
+                img.togcam(src="/img/webcam.png" alt="show camera")
+              .checkbox
+                label
+                input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-state="#{device.state}", data-type=device.type, , data-codes!=("#{device.codes}"), data-on-color="success")
+                div(class="text-muted devicedevchng")
+                  small Last switched: &nbsp;
+                    em #{moment(device.statechanged).format("MM/DD/YY HH:mm:ss")}
+                iframe.wcam(style="display:none;", width='300', height='166', scrolling='no', frameborder='no', src='', data-src=device.webcamurl)
   // /container
 
 block clientjs

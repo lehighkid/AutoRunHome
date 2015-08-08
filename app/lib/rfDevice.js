@@ -21,7 +21,6 @@ module.exports.sendcode = function sendcode(code, cb) {
 
   // listen for close
   child.on('close', function(code) {
-    //console.log('result:' + code);
     if (cb) cb(null, code);
   });
 
