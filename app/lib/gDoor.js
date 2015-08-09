@@ -3,7 +3,7 @@
  */
 var gpio = require('onoff').Gpio;
 
-module.exports.operate = function operate(id, cb) {
+function operate(id, cb) {
 
   try {
     var gd = new gpio(16, 'out');
@@ -22,5 +22,10 @@ module.exports.operate = function operate(id, cb) {
   finally {
     if (cb) cb('', 0);
   }
+}
+
+module.exports = {
+  operate: operate
 };
+
 

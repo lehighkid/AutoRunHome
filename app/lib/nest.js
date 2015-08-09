@@ -1,17 +1,17 @@
 /**
- * Created by admin on 8/6/15.
+ * Created by admin on 8/8/15.
  */
 var exec = require('child_process').exec;
 
-function sendcode(code, cb) {
+function show(cb) {
   //TODO:  wrap logig in try/catch block
   //TODO:  interpret exec results properly
 
-  var child = exec('sudo /home/pi/commands/rfoutlet/codesend ' + code);
+  var child = exec('nest --conf /home/pi/commands/nest.conf temp');
 
- // listen for outputs
+  // listen for outputs
   child.stdout.on('data', function(data) {
-    console.log('info:' + data);
+    if(cb) cb(null, data);
   });
 
   // listen for errors
@@ -21,11 +21,11 @@ function sendcode(code, cb) {
 
   // listen for close
   child.on('close', function(code) {
-    if (cb) cb(null, code);
+    //if (cb) cb(null, code);
   });
 
 }
 
 module.exports = {
-  sendcode: sendcode
+  show: show
 };
