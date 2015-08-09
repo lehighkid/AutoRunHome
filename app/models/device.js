@@ -8,7 +8,7 @@ var DeviceSchema = new Schema({
     name: String
   , description: String
   , type: String
-  , codes: [Number]
+  , codes: [String]
   , state: Boolean
   , statechanged: Date
   , remotenum: Number
