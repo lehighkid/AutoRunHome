@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -28,6 +29,14 @@ module.exports = function(app, config) {
   app.use(compress());
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
+  // Authentication configuration
+  app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'mySecret'
+  }));
+
+  var passport = require('./passport').init(app);
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
@@ -59,5 +68,4 @@ module.exports = function(app, config) {
         title: 'error'
       });
   });
-
 };
