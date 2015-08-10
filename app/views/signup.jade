@@ -1,0 +1,27 @@
+//Created by admin on 8/9/15.
+extends layout
+block content
+  .container
+    .col-sm-6.col-sm-offset-3
+      h1
+        span.fa.fa-sign-in
+        |  Signup
+        // show any messages that come back with authentication
+      form(action='/signup', method='post')
+        .form-group
+          label Email
+          input.form-control(type='text', name='email')
+        .form-group
+          label Password
+          input.form-control(type='password', name='password')
+        button.btn.btn-warning.btn-lg(type='submit') Signup
+      hr
+      p
+        | Already have an account?
+        a(href='/login') Login
+      p
+        | Or go
+        a(href='/') home
+        | .
+  // /container
+block clientjs
