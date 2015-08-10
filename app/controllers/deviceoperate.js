@@ -11,7 +11,7 @@ var rfDevice = require('./../lib/rfDevice.js');
 var moment = require('moment');
 var devicestateController = require('./devicestate');
 
-function init(app) {
+function init(app, passport) {
   app.use('/deviceoperate', router);
 }
 

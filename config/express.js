@@ -1,6 +1,6 @@
 var express = require('express');
 var glob = require('glob');
-
+var flash = require('connect-flash');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -38,9 +38,11 @@ module.exports = function(app, config) {
 
   var passport = require('./passport').init(app);
 
+  app.use(flash());
+
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
-    require(controller).init(app);
+    require(controller).init(app, passport);
   });
 
   app.use(function (req, res, next) {

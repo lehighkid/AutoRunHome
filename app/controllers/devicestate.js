@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 var Devicestate = mongoose.model('Devicestate');
 
-function init (app) {
+function init (app, passport) {
   app.use('/devicestate', router);
 }
 
