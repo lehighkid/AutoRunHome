@@ -8,19 +8,87 @@ block content
         |  Profile Page
       a.btn.btn-default.btn-sm(href='/logout') Logout
     .row
+      // LOCAL INFORMATION
       .col-sm-6
         .well
           h3
             span.fa.fa-user
             |  Local
           p
-            strong id:
-            #{user._id}
+            strong id
+            | :
             br
-            strong email:
-            #{user.local.email}
+            strong email
+            | :
             br
-            strong password:
-            #{user.local.password}
+            strong password
+            | :
+          a.btn.btn-default(href='/unlink/local') Unlink
+          a.btn.btn-default(href='/connect/local') Connect Local
+      // FACEBOOK INFORMATION
+      .col-sm-6
+        .well
+          h3.text-primary
+            span.fa.fa-facebook
+            |  Facebook
+          // check if the user has this token (is the user authenticated with this social account)
+          p
+            strong id
+            | :
+            br
+            strong token
+            | :
+            br
+            strong email
+            | :
+            br
+            strong name
+            | :
+            br
+          a.btn.btn-primary(href='/unlink/facebook') Unlink
+          a.btn.btn-primary(href='/connect/facebook') Connect Facebook
+    .row
+      // TWITTER INFORMATION
+      .col-sm-6
+        .well
+          h3.text-info
+            span.fa.fa-twitter
+            |  Twitter
+          // check if the user has this token (is the user authenticated with this social account)
+          p
+            strong id
+            | :
+            br
+            strong token
+            | :
+            br
+            strong display name
+            | :
+            br
+            strong username
+            | :
+          a.btn.btn-info(href='/unlink/twitter') Unlink
+          a.btn.btn-info(href='/connect/twitter') Connect Twitter
+      // GOOGLE INFORMATION
+      .col-sm-6
+        .well
+          h3.text-danger
+            span.fa.fa-google-plus
+            |  Google+
+          // check if the user has this token (is the user authenticated with this social account)
+          p
+            strong id
+            | :
+            br
+            strong token
+            | :
+            br
+            strong email
+            | :
+            br
+            strong name
+            | :
+          a.btn.btn-danger(href='/unlink/google') Unlink
+          a.btn.btn-danger(href='/connect/google') Connect Google
   // /container
 block clientjs

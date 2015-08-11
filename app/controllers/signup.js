@@ -11,10 +11,13 @@ function init (app, passport) {
   app.use('/signup', router);
 }
 
-router.get('/', function (req, res, next) {
-    res.render('signup');
-  });
+// SIGNUP =================================
+// show the signup form
+router.get('/', function(req, res) {
+  res.render('signup', { message: req.flash('loginMessage') });
+});
 
+// process the signup form
 router.post('/', _passport.authenticate('local-signup', {
   successRedirect : '/profile', // redirect to the secure profile section
   failureRedirect : '/signup', // redirect back to the signup page if there is an error
