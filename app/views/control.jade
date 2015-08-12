@@ -5,7 +5,7 @@ block content
     .row
     for devicetype in devices
       for type in devicetype._id
-        .col-sm-5
+        .col-sm-3
           .page-header
               h2 #{type.type}
             for device in devicetype.devices
