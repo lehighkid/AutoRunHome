@@ -11,16 +11,17 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var configAuth = require('./auth');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
 format.extend(String.prototype);
 
-passport.use('nest', new NestStrategy({
+/*passport.use('nest', new NestStrategy({
     clientID: process.env.NEST_ID,
     clientSecret: process.env.NEST_SECRET,
     tokenURL: 'https://api.home.nest.com/oauth2/access_token?client_id={0}&code=AUTHORIZATION_CODE&client_secret={1}&grant_type=authorization_code'.format(process.env.NEST_ID, process.env.NEST_SECRET), //'https://api.home.testc.nestlabs.com/oauth2/access_token',
     authorizationURL: 'https://home.nest.com/login/oauth2?client_id={0}&state=STATE'.format(process.env.NEST_ID) //'https://home.testc.nestlabs.com/login/oauth2'
   }
-));
+));*/
 
 // =========================================================================
 // LOCAL LOGIN =============================================================
@@ -357,7 +358,7 @@ module.exports = {
     app.get('/auth/nest', passport.authenticate('nest'));
     app.get('/auth/nest/callback',
       passport.authenticate('nest', {
-        successRedirect: '/profile',
+        successReturnToOrRedirect: '/profile',
         failureRedirect: '/'
       }),
       function (req, res) {
@@ -373,7 +374,7 @@ module.exports = {
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
       passport.authenticate('facebook', {
-        successRedirect : '/profile',
+        successReturnToOrRedirect : '/profile',
         failureRedirect : '/'
       }));
 
@@ -385,7 +386,7 @@ module.exports = {
     // handle the callback after twitter has authenticated the user
     app.get('/auth/twitter/callback',
       passport.authenticate('twitter', {
-        successRedirect : '/profile',
+        successReturnToOrRedirect : '/profile',
         failureRedirect : '/'
       }));
 
@@ -398,7 +399,7 @@ module.exports = {
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
       passport.authenticate('google', {
-        successRedirect : '/profile',
+        successReturnToOrRedirect : '/profile',
         failureRedirect : '/'
       }));
 
@@ -411,7 +412,7 @@ module.exports = {
       res.render('connect-local.ejs', { message: req.flash('loginMessage') });
     });
     app.post('/connect/local', passport.authenticate('local-signup', {
-      successRedirect : '/profile', // redirect to the secure profile section
+      successReturnToOrRedirect : '/profile', // redirect to the secure profile section
       failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
       failureFlash : true // allow flash messages
     }));
@@ -424,7 +425,7 @@ module.exports = {
     // handle the callback after facebook has authorized the user
     app.get('/connect/facebook/callback',
       passport.authorize('facebook', {
-        successRedirect : '/profile',
+        successReturnToOrRedirect : '/profile',
         failureRedirect : '/'
       }));
 
@@ -436,7 +437,7 @@ module.exports = {
     // handle the callback after twitter has authorized the user
     app.get('/connect/twitter/callback',
       passport.authorize('twitter', {
-        successRedirect : '/profile',
+        successReturnToOrRedirect : '/profile',
         failureRedirect : '/'
       }));
 
@@ -449,7 +450,7 @@ module.exports = {
     // the callback after google has authorized the user
     app.get('/connect/google/callback',
       passport.authorize('google', {
-        successRedirect : '/profile',
+        successReturnToOrRedirect : '/profile',
         failureRedirect : '/'
       }));
 
@@ -502,6 +503,6 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next();
     }
-    res.redirect('/')
+    res.redirect('/control')
   })
 };

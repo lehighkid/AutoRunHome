@@ -8,6 +8,7 @@ var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
 var gDoor = require('./../lib/gDoor.js');
 var rfDevice = require('./../lib/rfDevice.js');
+var dLock = require('./../lib/dLock.js');
 var moment = require('moment');
 var devicestateController = require('./devicestate');
 
@@ -37,6 +38,12 @@ function deviceoperate(deviceid, cb){
     // rf device logic
     else if (device.type === "rfDevice") {
       rfDevice.sendcode(device.codes[1 - device.state], function (err, result) {
+        if (err) return next(err);
+      });
+    }
+    // door lock device logic
+    else if (device.type === "dLock") {
+      dLock.operate(device.codes[1 - device.state], function (err, result) {
         if (err) return next(err);
       });
     }
