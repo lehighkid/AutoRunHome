@@ -9,6 +9,6 @@ module.exports = function(io){
 		controlController.respond(push, socket);
     deviceoperateController.respond(push, socket);
     devicestateController.respond(push, socket);
-    watcher.init(push, socket);
+    watcher.respond(push, socket);
 	});
 };

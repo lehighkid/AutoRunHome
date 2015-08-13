@@ -22,6 +22,10 @@ $(document).ready(function() {
     socket.emit('deviceoperate', this.getAttribute("id"));
   });
 
+  socket.on('gDoorStateDetected', function(data){
+    alert('GDSD: ' + data);
+  });
+
   socket.on('deviceoperated', function(data) {
     var resp = JSON.parse(data);
     var id = resp.id;

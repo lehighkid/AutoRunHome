@@ -19,7 +19,7 @@ function init(app, passport) {
 var _endpoint;
 
 function respond(endpoint, socket){
-  _endpoint = endpoint;
+    _endpoint = endpoint;
 
   socket.on('deviceoperate', function(data){
     deviceoperate(data);
@@ -34,24 +34,32 @@ function deviceoperate(deviceid, cb){
       gDoor.operate(device.id, function (err, result) {
         if (err) return next(err);
       });
+      // jump out of state loop since automatically detected by door
+      if (cb) return cb(err, result);
     }
     // rf device logic
     else if (device.type === "rfDevice") {
       rfDevice.sendcode(device.codes[1 - device.state], function (err, result) {
         if (err) return next(err);
+        // update and log device state change
+        devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+          if (err) return next(err);
+          if (cb) return cb(err, resp);
+        });
       });
     }
     // door lock device logic
     else if (device.type === "dLock") {
       dLock.operate(device.codes[1 - device.state], function (err, result) {
         if (err) return next(err);
+        // update and log device state change
+        devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+          if (err) return next(err);
+          if (cb) return cb(err, resp);
+        });
       });
     }
-  // update and log device state change
-  devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-    if (err) return next(err);
-    if (cb) return cb(err, resp);
-  });
+
 });
 }
 

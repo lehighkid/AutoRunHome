@@ -20,6 +20,7 @@ function respond(endpoint, socket){
 }
 
 function setdevicestate(deviceid, devicestate, cb) {
+  console.log('devicestate change requsted: ' + deviceid + ' to ' + devicestate);
   Devicestate.create(deviceid, devicestate, function (err, newdevicestate) {
     if (err) return next(err);
     var resp = {
