@@ -7,11 +7,11 @@ block content
       for type in devicetype._id
         .col-sm-3
           .page-header
-              h2 #{type.type}
+              h2 #{type.typeName}
             for device in devicetype.devices
               h3(style="display:inline;") #{device.name}
               unless device.webcamurl == "false"
-                img.togcam(src="/img/webcam.png" alt="show camera")
+                img.togcam(src="/img/webcam.png", alt="show camera")
               .checkbox
                 label
                 input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-state="#{device.state}", data-type=device.type, , data-codes!=("#{device.codes}"), data-on-color="success")
@@ -19,6 +19,8 @@ block content
                   small Last switched: &nbsp;
                     em #{moment(device.statechanged).format("MM/DD/YY HH:mm:ss")}
                 iframe.wcam(style="display:none;", width='300', height='166', scrolling='no', frameborder='no', src='', data-src=device.webcamurl)
+    .row
+      iframe.wcam(width='270', height='248', scrolling='no', frameborder='no', src='https://nest.acdrago.dynu.com/')
   // /container
 
 block clientjs

@@ -8,10 +8,10 @@ var _deviceId = '55bc041aeedf05dc7c9334e2';
 var _endpoint;
 var _closed;
 var _open;
-var _state = 'initial';
+var _state = 'Closed';
 
 function detectedState(cb){
-  var state = 'Unknown';
+  var state = 'Closed';
 
   if ((_closed + _open == 0) || (_closed + _open == 2)) {
     state = 'In Between';

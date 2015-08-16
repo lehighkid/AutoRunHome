@@ -50,6 +50,7 @@ router.route('/')
       name = req.body.devicename,
       description = req.body.description,
       type = req.body.devicetype,
+      typeName = req.body.typeName,
       codes = req.body.codes,
       remotenum = req.body.remotenum,
       inuse = req.body.inuse,

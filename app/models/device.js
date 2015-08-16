@@ -8,6 +8,7 @@ var DeviceSchema = new Schema({
     name: String
   , description: String
   , type: String
+  , typeName: String
   , codes: [String]
   , state: Boolean
   , statechanged: Date
@@ -51,11 +52,12 @@ DeviceSchema.statics.updateState = function updateState(id, state, statechanged,
 };
 
 // create new device
-DeviceSchema.statics.create = function create(name, description, type, codes, remotenum, inuse, sortorder, webcamurl, state, cb) {
+DeviceSchema.statics.create = function create(name, description, type, typename, codes, remotenum, inuse, sortorder, webcamurl, state, cb) {
   var newdevice = new Device ({
     name: name,
     description: description,
     type: type,
+    typeName: typename,
     codes: codes,
     remotenum: remotenum,
     inuse: inuse,
