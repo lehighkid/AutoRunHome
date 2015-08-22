@@ -14,7 +14,7 @@ function respond(endpoint, socket){
 }
 
 router.get('/', /*auth.ensureAuthenticated,*/ function (req, res, next) {
-  Device.aggregate([{ $match: {inuse: true}}, { $sort: {sortorder: 1}}, {$group:{_id: {type: {type: "$type", typeName: "$typeName"}}, devices: { $push: { id: "$_id", name: "$name", type: "$type", typeName: "$typeName", description: "$description", codes: "$codes", state: "$state", statechanged: "$statechanged", sortorder: "$sortorder", webcamurl: "$webcamurl"}}}}], function(err, devices){
+  Device.aggregate([{ $match: {inuse: true}}, { $sort: {sortorder: 1}}, {$group:{_id: {type: {type: "$type", typeName: "$typeName"}}, devices: { $push: { id: "$_id", name: "$name", type: "$type", typeName: "$typeName", description: "$description", codes: "$codes", state: "$state", statechanged: "$statechanged", dataon: "$dataon", dataoff: "$dataoff", sortorder: "$sortorder", webcamurl: "$webcamurl"}}}}], function(err, devices){
     if (err) return next(err);
     res.render('control', {
       title: 'AutoRunHome - Control Your Home',

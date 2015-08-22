@@ -21,3 +21,12 @@ body {
 .rfdevchng, .gdoordevchng, .wcam{
   padding-left: 20px;
 }
+
+.btn .glyphicon {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.btn.btn-icon .glyphicon {
+  margin-right: 0;
+}

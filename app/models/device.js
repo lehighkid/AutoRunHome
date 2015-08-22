@@ -16,6 +16,8 @@ var DeviceSchema = new Schema({
   , inuse: Boolean
   , sortorder: Number
   , webcamurl: String
+  , dataon: String
+  , dataoff: String
 });
 
 // list all devices

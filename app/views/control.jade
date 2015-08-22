@@ -9,18 +9,20 @@ block content
           .page-header
               h2 #{type.typeName}
             for device in devicetype.devices
-              h3(style="display:inline;") #{device.name}
+              h3(style="display:inline;") #{device.name} &nbsp;
               unless device.webcamurl == "false"
-                img.togcam(src="/img/webcam.png", alt="show camera")
+                button(type="button", class="btn btn-default togcam")
+                  span(class="glyphicon glyphicon-facetime-video" aria-hidden="true")
+                //img.togcam(src="/img/webcam.png", alt="show camera")
               .checkbox
                 label
-                input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-state="#{device.state}", data-type=device.type, , data-codes!=("#{device.codes}"), data-on-color="success")
+                input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
                 div(class="text-muted devicedevchng")
                   small Last switched: &nbsp;
                     em #{moment(device.statechanged).format("MM/DD/YY HH:mm:ss")}
                 iframe.wcam(style="display:none;", width='300', height='166', scrolling='no', frameborder='no', src='', data-src=device.webcamurl)
     .row
-      iframe.wcam(width='270', height='248', scrolling='no', frameborder='no', src='https://nest.acdrago.dynu.com/')
+      iframe(width='270', height='248', scrolling='no', frameborder='no', src='https://nest.acdrago.dynu.com/')
   // /container
 
 block clientjs
