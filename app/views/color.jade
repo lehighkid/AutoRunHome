@@ -1,0 +1,149 @@
+//Created by admin on 8/23/15.
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Color Picker — Raphaël
+    style(media='screen').
+      body {
+        background: #333;
+        color: #999;
+        font: 300 100.01%/1.2 "Segoe UI", "Helvetica Neue", Helvetica, "Arial Unicode", Arial, sans-serif;
+        margin: 0 30px;
+      }
+      #content {
+        width: 640px;
+        height: 480px;
+        position: relative;
+      }
+      h1 {
+        font-weight: 300;
+        font-size: 3em;
+        position: absolute;
+        right: 10px;
+        bottom: 50px;
+      }
+      p {
+        font-size: 2em;
+      }
+      #benefits {
+        margin-top: 350px;
+      }
+      #copy a {
+        color: #666;
+        text-decoration: none;
+      }
+      #picker2 {
+        width: 300px;
+        position: absolute;
+        top: 250px;
+        left: 50%;
+        margin-left: -150px;
+      }
+      #benefits {
+        margin-bottom: 0;
+      }
+      #output {
+        background: #eee;
+        position: absolute;
+        font-size: 30px;
+        bottom: 10px;
+        left: 20px;
+        font-family: monospace;
+        margin-top: -20px;
+      }
+      #copy {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        margin: 0;
+        font-size: .6em;
+        color: #666;
+      }
+      #values {
+        position: absolute;
+        left: 20px;
+        top: 363px;
+        font-size: .7em;
+      }
+    script(src = '/js/raphael-min.js')
+    script(src = '/js/colorwheel.js')
+    script(src='/js/colorpicker.js')
+    script.
+      Raphael(function () {
+        var out = document.getElementById("output"),
+          vr = document.getElementById("vr"),
+          vg = document.getElementById("vg"),
+          vb = document.getElementById("vb"),
+          vh = document.getElementById("vh"),
+          vh2 = document.getElementById("vh2"),
+          vs = document.getElementById("vs"),
+          vs2 = document.getElementById("vs2"),
+          vv = document.getElementById("vv"),
+          vl = document.getElementById("vl"),
+        // this is where colorpicker created
+          cp = Raphael.colorpicker(40, 20, 300, "#eee"),
+          cp2 = Raphael.colorwheel(360, 20, 300, "#eee"),
+          clr = Raphael.color("#eee");
+        vr.innerHTML = clr.r;
+        vg.innerHTML = clr.g;
+        vb.innerHTML = clr.b;
+        vh.innerHTML = vh2.innerHTML = Math.round(clr.h * 360) + "°";
+        vs.innerHTML = vs2.innerHTML = Math.round(clr.s * 100) + "%";
+        vv.innerHTML = Math.round(clr.v * 100) + "%";
+        vl.innerHTML = Math.round(clr.l * 100) + "%";
+        out.onkeyup = function () {
+          cp.color(this.value);
+          cp2.color(this.value);
+        };
+        // assigning onchange event handler
+        var onchange = function (item) {
+          return function (clr) {
+            out.value = clr.replace(/^#(.)\\1(.)\2(.)\3$/, "#$1$2$3");
+            item.color(clr);
+            out.style.background = clr;
+            out.style.color = Raphael.rgb2hsb(clr).b < .5 ? "#fff" : "#000";
+            clr = Raphael.color(clr);
+            vr.innerHTML = clr.r;
+            vg.innerHTML = clr.g;
+            vb.innerHTML = clr.b;
+            vh.innerHTML = vh2.innerHTML = Math.round(clr.h * 360) + "°";
+            vs.innerHTML = vs2.innerHTML = Math.round(clr.s * 100) + "%";
+            vv.innerHTML = Math.round(clr.v * 100) + "%";
+            vl.innerHTML = Math.round(clr.l * 100) + "%";
+          };
+        };
+        cp.onchange = onchange(cp2);
+        cp2.onchange = onchange(cp);
+        // that’s it. Too easy
+      });
+  body
+    #content
+      h1#h1 Color Picker
+      table#values
+        tr
+          th R
+          td#vr
+          th H
+          td#vh
+          th H
+          td#vh2
+        tr
+          th G
+          td#vg
+          th S
+          td#vs
+          th S
+          td#vs2
+        tr
+          th B
+          td#vb
+          th B
+          td#vv
+          th L
+          td#vl
+      input#output(type='text', value='#eeeeee')
+      p#copy
+        | Powered by
+        a(href='http://raphaeljs.com/') Raphaël
+    #picker2

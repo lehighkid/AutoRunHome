@@ -4,7 +4,6 @@
 html, body {
   height: 100%;
 }
-
 body {
   padding: 25px;
   padding-top:80px;
@@ -18,15 +17,40 @@ body {
 .footer, .push {
   height: 25px; /* .push must be the same height as .footer */
 }
-.rfdevchng, .gdoordevchng, .wcam{
+.rfdevchng, .gdoordevchng {
   padding-left: 20px;
 }
-
-.btn .glyphicon {
-  margin-right: 4px;
-  vertical-align: middle;
+#benefits {
+  margin-top: 350px;
+  margin-bottom: 0;
 }
-
-.btn.btn-icon .glyphicon {
-  margin-right: 0;
+#picker2 {
+  width: 300px;
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  margin-left: -150px;
+}
+#output {
+  background: #eee;
+  position: absolute;
+  font-size: 30px;
+  bottom: 10px;
+  left: 20px;
+  font-family: monospace;
+  margin-top: -20px;
+}
+#copy {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin: 0;
+  font-size: .6em;
+  color: #666;
+}
+#values {
+  position: absolute;
+  left: 20px;
+  top: 363px;
+  font-size: .7em;
 }
