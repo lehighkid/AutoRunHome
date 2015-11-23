@@ -16,6 +16,7 @@ var DeviceSchema = new Schema({
   , inuse: Boolean
   , sortorder: Number
   , webcamurl: String
+  , zone: Number
   , dataon: String
   , dataoff: String
 });
@@ -54,7 +55,7 @@ DeviceSchema.statics.updateState = function updateState(id, state, statechanged,
 };
 
 // create new device
-DeviceSchema.statics.create = function create(name, description, type, typename, codes, remotenum, inuse, sortorder, webcamurl, state, cb) {
+DeviceSchema.statics.create = function create(name, description, type, typename, codes, remotenum, inuse, sortorder, webcamurl, state, zone, cb) {
   var newdevice = new Device ({
     name: name,
     description: description,
@@ -66,7 +67,8 @@ DeviceSchema.statics.create = function create(name, description, type, typename,
     state: state,
     statechanged: new Date(),
     sortorder: sortorder,
-    webcamurl: webcamurl
+    webcamurl: webcamurl,
+    zone: zone
   });
   newdevice.save(function(err) {
     if (err) return next(err);

@@ -6,9 +6,10 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
-var gDoor = require('./../lib/gDoor.js');
-var rfDevice = require('./../lib/rfDevice.js');
-var dLock = require('./../lib/dLock.js');
+var gDoor = require('./../lib/gDoor');
+var rfDevice = require('./../lib/rfDevice');
+var dLock = require('./../lib/dLock');
+var miLight = require('./../lib/miLight');
 var moment = require('moment');
 var devicestateController = require('./devicestate');
 
@@ -56,6 +57,17 @@ function deviceoperate(deviceid, cb){
     // door lock device logic
     else if (device.type === "dLock") {
       dLock.operate(device.codes[1 - device.state], function (err, result) {
+        if (err) return next(err);
+        // update and log device state change
+        devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+          if (err) return next(err);
+          if (cb) return cb(err, resp);
+        });
+      });
+    }
+    // milight device logic
+    else if (device.type === "miLight") {
+      miLight.operate(device, function (err, result) {
         if (err) return next(err);
         // update and log device state change
         devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){

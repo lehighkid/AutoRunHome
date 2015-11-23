@@ -5,7 +5,6 @@ var gpio = require('onoff').Gpio;
 var settings = require('./../../config/settings');
 
 function operate(id, cb) {
-
   try {
     var gd = new gpio(settings.gdoor.execpin, 'out');
     var iv = setInterval(function(){

@@ -39,8 +39,7 @@ var WifiBox = function (ip, port) {
 
 };
 
-
-WifiBox.prototype.command = function (threeByteArray) {
+WifiBox.prototype.command = function (threeByteArray, cb) {
   var buffer = new Buffer(threeByteArray);
   this.client.send(buffer
     , 0
@@ -50,17 +49,21 @@ WifiBox.prototype.command = function (threeByteArray) {
     , function (err, bytes) {
       if (err) {
         console.log("udp error:" + err);
-        throw err;
+        if (cb)
+          cb(err, "udp failed");
+        else
+          throw err;
       } else {
-        console.log('bytes send: ' + [threeByteArray[0], threeByteArray[1], threeByteArray[2]])
+        if (cb)
+          cb(null, 1);
+        console.log('bytes send: ' + [threeByteArray[0], threeByteArray[1], threeByteArray[2]]);
       }
     }
   );
-}
+};
 
 WifiBox.prototype.toString = function () {
   return 'WifiBox: { ip:' + this.ip + ':' + this.port + '}';
 };
-
 
 module.exports = WifiBox;

@@ -5,6 +5,8 @@ var format = require('string-format');
 var exec = require('child_process').exec;
 var settings = require('./../../config/settings');
 
+format.extend(String.prototype);
+
 function sendcode(code, cb) {
   //TODO:  wrap logig in try/catch block
   //TODO:  interpret exec results properly
