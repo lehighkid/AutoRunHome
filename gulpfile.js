@@ -8,7 +8,10 @@ gulp.task('develop', function () {
   livereload.listen();
   nodemon({
     script: 'app.js',
+    ignore: ['.idea/*', 'node_modules/*'],
     ext: 'js coffee jade',
+    exec: 'node-inspector & node --debug',
+    verbose: true
   }).on('restart', function () {
     setTimeout(function () {
       livereload.changed(__dirname);
