@@ -28,11 +28,12 @@
 
 var http = require('http');
 var dgram = require('dgram');
+var settings = require('./../../config/settings');
 
 var WifiBox = function (ip, port) {
   this.client = dgram.createSocket('udp4');
-  const default_ip = '10.0.1.7';
-  const default_port = 8899;
+  const default_ip = settings.milight.wifiboxip;
+  const default_port = settings.milight.wifiboxport;
   this.ip = (ip != undefined && ip.length > 6) ? ip : default_ip;
   this.port = (port != undefined && port > 0) ? port : default_port;
 

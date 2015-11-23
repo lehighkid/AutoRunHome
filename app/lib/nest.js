@@ -2,12 +2,13 @@
  * Created by admin on 8/8/15.
  */
 var exec = require('child_process').exec;
+var settings = require('./../../config/settings');
 
 function show(cb) {
-  //TODO:  wrap logig in try/catch block
+  //TODO:  wrap logging in try/catch block
   //TODO:  interpret exec results properly
 
-  var child = exec('nest --conf /home/pi/commands/nest.conf temp');
+  var child = exec(settings.nest.execcmd);
 
   // listen for outputs
   child.stdout.on('data', function(data) {

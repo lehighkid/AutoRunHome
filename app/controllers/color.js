@@ -5,8 +5,12 @@ var express = require('express');
 var router = express.Router();
 
 var _endpoint;
+var _settings;
+var _passport;
 
-function init (app, passport) {
+function init (app, passport, settings) {
+  _passport = passport;
+  _settings = settings;
   app.use('/color', router);
 }
 function respond(endpoint, socket){

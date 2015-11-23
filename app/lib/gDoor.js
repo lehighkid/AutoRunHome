@@ -2,11 +2,12 @@
  * Created by admin on 8/6/15.
  */
 var gpio = require('onoff').Gpio;
+var settings = require('./../../config/settings');
 
 function operate(id, cb) {
 
   try {
-    var gd = new gpio(16, 'out');
+    var gd = new gpio(settings.gdoor.execpin, 'out');
     var iv = setInterval(function(){
       gd.writeSync(gd.readSync() === 0 ? 0 : 1)
     }, 500);

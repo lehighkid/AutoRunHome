@@ -12,11 +12,16 @@ var dLock = require('./../lib/dLock.js');
 var moment = require('moment');
 var devicestateController = require('./devicestate');
 
-function init(app, passport) {
+var _endpoint;
+var _settings;
+var _passport;
+
+function init(app, passport, settings) {
+  _passport = passport;
+  _settings = settings;
   app.use('/deviceoperate', router);
 }
 
-var _endpoint;
 
 function respond(endpoint, socket){
     _endpoint = endpoint;

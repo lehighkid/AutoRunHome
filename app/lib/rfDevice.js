@@ -1,13 +1,15 @@
 /**
  * Created by admin on 8/6/15.
  */
+var format = require('string-format');
 var exec = require('child_process').exec;
+var settings = require('./../../config/settings');
 
 function sendcode(code, cb) {
   //TODO:  wrap logig in try/catch block
   //TODO:  interpret exec results properly
 
-  var child = exec('sudo /home/pi/commands/rfoutlet/codesend ' + code);
+  var child = exec(settings.rfcodesend.execcmd.format(code));
 
  // listen for outputs
   child.stdout.on('data', function(data) {

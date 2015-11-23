@@ -7,12 +7,16 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 var Devicestate = mongoose.model('Devicestate');
 
-function init (app, passport) {
-  app.use('/devicestate', router);
-}
-
 var _endpoint;
 var _socket;
+var _settings;
+var _passport;
+
+function init (app, passport, settings) {
+  _passport = passport;
+  _settings = settings;
+  app.use('/devicestate', router);
+}
 
 function respond(endpoint, socket){
   _endpoint = endpoint;

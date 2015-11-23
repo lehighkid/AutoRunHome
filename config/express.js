@@ -37,12 +37,13 @@ module.exports = function(app, config) {
   }));
 
   var passport = require('./passport').init(app);
+  var settings = require('./settings');
 
   app.use(flash());
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
-    require(controller).init(app, passport);
+    require(controller).init(app, passport, settings);
   });
 
   app.use(function (req, res, next) {

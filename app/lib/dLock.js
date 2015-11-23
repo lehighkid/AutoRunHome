@@ -3,17 +3,18 @@
  */
 var format = require('string-format');
 var http = require('http');
+var settings = require('./../../config/settings');
 
 format.extend(String.prototype);
 
 function operate(code, cb ) {
   var options = {
-    host: '10.0.1.4',
-    port: 8083,
-    path: 'ZWaveAPI/Run/devices[5].instances[0].commandClasses[98].Set({0})'.format(code)
+    host: settings.razberry.zboxip,
+    port: settings.razberry.zboxport,
+    path: settings.razberry.zpath.format(code)
   };
 
-  var url = 'http://10.0.1.4:8083/ZWaveAPI/Run/devices[5].instances[0].commandClasses[98].Set({0})'.format(code);
+  var url = 'http://{0}:{1}/{2}'.format(options.host, options.port, options.path);
 
   http.request(url, function(response){
     var result = response.statusCode;
@@ -31,7 +32,3 @@ module.exports = {
   operate: operate
 };
 
-//http://10.0.1.4:8083/ZWaveAPI/Run/devices[5].instances[0].commandClasses[98].Set(0)   //unlock
-//http://10.0.1.4:8083/ZWaveAPI/Run/devices[5].instances[0].commandClasses[98].Set(255) //lock
-//http://10.0.1.4:8083/ZWaveAPI/Run/devices[5].instances[0].commandClasses[98].Get()    //state request
-//http://10.0.1.4:8083//ZWaveAPI/Run/devices[2].DoorLock.data.mode.value                //state value

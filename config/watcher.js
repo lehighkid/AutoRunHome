@@ -3,8 +3,9 @@
  */
 var gpio = require('onoff').Gpio;
 var deviceState = require('./../app/controllers/devicestate');
+var settings = require('./settings');
 
-var _deviceId = '55bc041aeedf05dc7c9334e2';
+var _deviceId = settings.gdoor.deviceid;
 var _endpoint;
 var _closed;
 var _open;
@@ -36,8 +37,8 @@ function respond(endpoint, socket){
 
   _endpoint = endpoint;
 
-  var doorDownIf = new gpio(22, 'in', 'both', {debounceTimeout: 20});
-  var doorOpenIf = new gpio(25, 'in', 'both', {debounceTimeout: 20});
+  var doorDownIf = new gpio(settings.gdoor.closedpin, 'in', 'both', {debounceTimeout: 20});
+  var doorOpenIf = new gpio(settings.gdoor.openedpin, 'in', 'both', {debounceTimeout: 20});
 
   doorDownIf.watch(function(err, value) {
     if (err) return next(err);

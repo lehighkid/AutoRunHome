@@ -5,7 +5,12 @@ var express = require('express');
 var router = express.Router();
 var auth = require('./../../config/passport');
 
-function init (app, passport) {
+var _settings;
+var _passport;
+
+function init (app, passport, settings) {
+  _passport = passport;
+  _settings = settings;
   app.use('/profile', router);
 }
 

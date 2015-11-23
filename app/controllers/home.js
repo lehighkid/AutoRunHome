@@ -4,7 +4,12 @@
 var express = require('express');
 var router = express.Router();
 
-function init (app, passport) {
+var _settings;
+var _passport;
+
+function init (app, passport, settings) {
+  _passport = passport;
+  _settings = settings;
   app.use('/', router);
 }
 

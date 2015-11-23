@@ -8,7 +8,12 @@ var Device = mongoose.model('Device');
 
 // Define routes handling profile requests
 
-function init(app, passport) {
+var _settings;
+var _passport;
+
+function init(app, passport, settings) {
+  _passport = passport;
+  _settings = settings;
   app.use('/device', router);
 }
 
