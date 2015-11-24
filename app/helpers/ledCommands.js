@@ -57,12 +57,12 @@ ColorRgbwCmd.prototype.allOn  = function(){  this.on(0) };
 ColorRgbwCmd.prototype.allOff = function(){  this.off(0) };
 
 /* Hue range 0-255 [targets last ON() activated bulb(s)] */
-ColorRgbwCmd.prototype.hue =  function(decimal)
+ColorRgbwCmd.prototype.hue =  function(zone, decimal)
 {
   var hex = decimal.toString(16);
   hex = (hex.length < 2) ? '0x0'+hex : '0x'+hex;
   return [0x40,hex,0x55];
-}
+};
 /* Switch to white mode [targets last ON() activated bulb(s)] */
 ColorRgbwCmd.prototype.whiteMode = 	function(){  	return [0xC2,00,0x55] };
 /* Brightness range 1-100 [targets last ON() activated bulb(s)]*/
@@ -113,21 +113,22 @@ WhiteCmd.prototype.cooler = 	function(){ return [0x3F,0x00,0x55] };
 
 
 /* RGB BULBS & CONTROLLERS, PREVIOUS GNERATION SINGLE CHANNEL/ZONE*/
-
-ColorRgbCmd.prototype.off = function(){ return [0x21,0x00,0x55] };
-ColorRgbCmd.prototype.on = function(){ return [0x22,0x00,0x55] };
-ColorRgbCmd.prototype.hue = function(decimal)
+// zone parameter added but not used to limit need to conditionally
+// pass parameters based on bulb/controller type
+ColorRgbCmd.prototype.off = function(zone){ return [0x21,0x00,0x55] };
+ColorRgbCmd.prototype.on = function(zone){ return [0x22,0x00,0x55] };
+ColorRgbCmd.prototype.hue = function(zone, decimal)
 {
   var hex = decimal.toString(16);
   hex = (hex.length < 2) ? '0x0'+hex : '0x'+hex;
   return [0x20,hex,0x55];
 };
-ColorRgbCmd.prototype.brightUp = 	function(){ return [0x23,0x00,0x55] };
-ColorRgbCmd.prototype.brightDown = 	function(){ return [0x24,0x00,0x55] };
-ColorRgbCmd.prototype.speedUp = 	function(){ return [0x25,0x00,0x55] };
-ColorRgbCmd.prototype.speedDown = 	function(){ return [0x26,0x00,0x55] };
-ColorRgbCmd.prototype.effectSpeedUp = 	function(){ return [0x27,0x00,0x55] };
-ColorRgbCmd.prototype.effectSpeedDown = function(){ return [0x28,0x00,0x55] };
+ColorRgbCmd.prototype.brightUp = 	function(zone){ return [0x23,0x00,0x55] };
+ColorRgbCmd.prototype.brightDown = 	function(zone){ return [0x24,0x00,0x55] };
+ColorRgbCmd.prototype.speedUp = 	function(zone){ return [0x25,0x00,0x55] };
+ColorRgbCmd.prototype.speedDown = 	function(zone){ return [0x26,0x00,0x55] };
+ColorRgbCmd.prototype.effectSpeedUp = 	function(zone){ return [0x27,0x00,0x55] };
+ColorRgbCmd.prototype.effectSpeedDown = function(zone){ return [0x28,0x00,0x55] };
 
 
 

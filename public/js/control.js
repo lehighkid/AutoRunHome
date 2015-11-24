@@ -1,5 +1,6 @@
 $(document).ready(function() {
   var devices = $('.device').bootstrapSwitch();
+  var cpickers = $('.basic').spectrum();
   var socket = io.connect();
 
   $('.togcam').click(function(){
@@ -13,8 +14,23 @@ $(document).ready(function() {
     }
   });
 
+  cpickers.on('change.spectrum', function(event, color){
+    var data = {
+      deviceid: $(this).parent().find('.device').attr('id'),
+      cmd: this.getAttribute("data-cmd"),
+      hex: color.toHexString(),
+      updateState: false
+    };
+    socket.emit('deviceoperate', data);
+  });
+
   devices.on('switchChange.bootstrapSwitch', function(event, state) {
-    socket.emit('deviceoperate', this.getAttribute("id"));
+    var data = {
+      deviceid: this.getAttribute("id"),
+      cmd: this.getAttribute("data-cmd"),
+      updateState: true
+    };
+    socket.emit('deviceoperate', data);
   });
 
   socket.on('deviceoperated', function(data) {

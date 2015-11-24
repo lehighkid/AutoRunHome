@@ -32,13 +32,17 @@ function respond(endpoint, socket){
   });
 }
 
-function deviceoperate(deviceid, cb){
+function deviceoperate(data, cb){
+  var deviceid = data.deviceid;
+  var cmd = data.cmd;
+  var hex = data.hex;
+  var updateState = data.updateState;
   Device.search(deviceid, function (err, device) {
-    if (err) return next(err);
+    if (err) return err;
     // garage door logic
     if (device.type === "gDoor") {
       gDoor.operate(device.id, function (err, result) {
-        if (err) return next(err);
+        if (err) return err;
       });
       // jump out of state loop since automatically detected by door
       if (cb) return cb(err, result);
@@ -46,34 +50,40 @@ function deviceoperate(deviceid, cb){
     // rf device logic
     else if (device.type === "rfDevice") {
       rfDevice.sendcode(device.codes[1 - device.state], function (err, result) {
-        if (err) return next(err);
+        if (err) return err;
         // update and log device state change
-        devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-          if (err) return next(err);
-          if (cb) return cb(err, resp);
-        });
+        if(updateState){
+          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+            if (err) return err;
+            if (cb) return cb(err, resp);
+          });
+        }
       });
     }
     // door lock device logic
     else if (device.type === "dLock") {
       dLock.operate(device.codes[1 - device.state], function (err, result) {
-        if (err) return next(err);
+        if (err) return err;
         // update and log device state change
-        devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-          if (err) return next(err);
-          if (cb) return cb(err, resp);
-        });
+        if(updateState){
+          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+            if (err) return err;
+            if (cb) return cb(err, resp);
+          });
+        }
       });
     }
     // milight device logic
     else if (device.type === "miLight") {
-      miLight.operate(device, function (err, result) {
-        if (err) return next(err);
+      miLight.operate(device, cmd, hex, function (err, result) {
+        if (err) return err;
         // update and log device state change
-        devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-          if (err) return next(err);
-          if (cb) return cb(err, resp);
-        });
+        if(updateState){
+          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+            if (err) return err;
+            if (cb) return cb(err, resp);
+          });
+        }
       });
     }
 
@@ -85,7 +95,7 @@ router.route('/:device_id')
   // get device type for id
   .get(function(req, res) {
       deviceoperate(req.params.device_id, function(err, resp){
-        if (err) return next(err);
+        if (err) return err;
         res.json(resp);
       });
   });

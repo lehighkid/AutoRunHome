@@ -5,24 +5,30 @@ var format = require('string-format');
 var http = require('http');
 var settings = require('./../../config/settings');
 var WifiBoxModule = require('./../helpers/ledWifiBox');
-var cmd = require('./../helpers/ledCommands');
+var wCmd = require('./../helpers/ledCommands');
 
 format.extend(String.prototype);
 
-function operate(miLightdevice, cb) {
+function operate(miLightdevice, cmd, hex, cb) {
   var led = new WifiBoxModule(settings.milight.wifiboxip, settings.milight.wifiboxport);
-  if(miLightdevice.state) {
-    led.command(cmd.rgbw.off(miLightdevice.zone), function (err, result) {
-      if (cb)
+
+  var cmdNm;
+  var cmdGrp = wCmd[miLightdevice.subtype];
+  var cmdF;
+  if (cmd=='toggle') {
+    cmdNm = (miLightdevice.state) ? 'off' : 'on';
+    cmdF = cmdGrp[cmdNm](miLightdevice.zone)
+  }
+  else if (cmd=='hue') {
+    cmdNm = cmd;
+    cmdF = cmdGrp[cmdNm](miLightdevice.zone, 77)
+  }
+
+  led.command(cmdF, function (err, result) {
+    if (cb)
         cb(err, result);
     });
-  }
-  else {
-    led.command(cmd.rgbw.on(miLightdevice.zone), function (err, result) {
-      if (cb)
-        cb(err, result);
-    });
-  }
+
 
   //_led.command(cmd.rgbw.hue(100));
   //led.command(cmd.rgb.hue(240));
