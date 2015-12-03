@@ -10,7 +10,7 @@ var _passport;
 function init (app, passport, settings) {
   _passport = passport;
   _settings = settings;
-  app.use('/', router);
+  app.use('/home', router);
 }
 
 router.get('/', function (req, res, next) {

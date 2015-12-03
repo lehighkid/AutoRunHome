@@ -11,7 +11,7 @@ var _passport;
 function init (app, passport, settings) {
   _passport = passport;
   _settings = settings;
-  app.use('/control', router);
+  app.use('/', router);
 }
 
 function respond(endpoint, socket){

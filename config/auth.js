@@ -5,27 +5,27 @@
 module.exports = {
 
   'nestAuth' : {
-    'clientID'      : 'yourclientid', // your App ID
-    'clientSecret'  : 'yoursecret', // your App Secret
-    'callbackURL'   : 'https://your.server/auth/nest/callback'
+    'clientID'      : '35db1bc9-f1be-48a0-b491-acf7e3e2b104', // your App ID
+    'clientSecret'  : '0Uv9aD38lJudKdHX1v3BkuaN7', // your App Secret
+    'callbackURL'   : 'https://acdrago.dynu.com/auth/nest/callback'
   },
 
   'facebookAuth' : {
-    'clientID'      : 'yourclientid',
-    'clientSecret'  : 'yoursecret',
-    'callbackURL'   : 'https://your.server/auth/facebook/callback'
+    'clientID'      : '859035200858380',
+    'clientSecret'  : '4fb39a698c965be630756e416648fbf0',
+    'callbackURL'   : 'https://acdrago.dynu.com/auth/facebook/callback'
   },
 
   'twitterAuth' : {
-    'consumerKey'       : 'yourclientid',
-    'consumerSecret'    : 'yoursecret',
-    'callbackURL'       : 'https://your.server/auth/twitter/callback'
+    'consumerKey'       : 'hP3yEeitBYWeYbaqtmIU3pv0r',
+    'consumerSecret'    : 'psWmL4JeBQosgbmd4QzFGYS8DfoPqGD6kHvQf36E23SQlXBDiY',
+    'callbackURL'       : 'https://acdrago.dynu.com/auth/twitter/callback'
   },
 
   'googleAuth' : {
-    'clientID'      : 'yourclientid',
-    'clientSecret'  : 'yoursecret',
-    'callbackURL'   : 'https://your.server/auth/google/callback'
+    'clientID'      : '290049610810-9q7smbh5vrlrhvpf1rm9ldd7ng6ct2la.apps.googleusercontent.com',
+    'clientSecret'  : 'xsKsfypIQgPUDfe9qGAtWHS8',
+    'callbackURL'   : 'https://acdrago.dynu.com/auth/google/callback'
   }
 
 };
