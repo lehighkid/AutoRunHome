@@ -1,6 +1,6 @@
 $(document).ready(function() {
   var devices = $('.device').bootstrapSwitch();
-  var cpickers = $('.basic').spectrum();
+  var cpickers = $('.basic').spectrum({showAlpha: true});
   var socket = io.connect();
 
   $('.togcam').click(function(){
@@ -40,6 +40,8 @@ $(document).ready(function() {
       device.bootstrapSwitch('state', resp.state, true);
     }
     device.attr("data-state", resp.state);
-    device.parent().parent().next("div").find("em").text(resp.changed);
+    //device.parent().parent().next("div").find("em").text(resp.changed);
+    var deviceEm = $("#em_" + resp.id);
+    deviceEm.text(resp.changed);
   });
 });

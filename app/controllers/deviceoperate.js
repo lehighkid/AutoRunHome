@@ -8,7 +8,9 @@ var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
 var gDoor = require('./../lib/gDoor');
 var rfDevice = require('./../lib/rfDevice');
+var lightshowpi = require('./../lib/lightshowpi');
 var dLock = require('./../lib/dLock');
+var gpio = require('./../lib/gpio');
 var miLight = require('./../lib/miLight');
 var moment = require('moment');
 var devicestateController = require('./devicestate');
@@ -34,9 +36,9 @@ function respond(endpoint, socket){
 
 function deviceoperate(data, cb){
   var deviceid = data.deviceid;
-  var cmd = data.cmd;
+  var cmd = (data.cmd === undefined) ? 'toggle' : data.cmd;
   var hex = data.hex;
-  var updateState = data.updateState;
+  var updateState = (data.updateState === undefined) ? true : data.updateState;
   Device.search(deviceid, function (err, device) {
     if (err) return err;
     // garage door logic
@@ -46,6 +48,19 @@ function deviceoperate(data, cb){
       });
       // jump out of state loop since automatically detected by door
       if (cb) return cb(err, result);
+    }
+    // lightshowpi device logic
+    else if (device.type === "lightshowpi") {
+      lightshowpi.sendcode(device.channelNumber, device.codes[1 - device.state], function (err, result) {
+        if (err) return err;
+        // update and log device state change
+        if(updateState){
+          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+            if (err) return err;
+            if (cb) return cb(err, resp);
+          });
+        }
+      });
     }
     // rf device logic
     else if (device.type === "rfDevice") {
@@ -73,6 +88,19 @@ function deviceoperate(data, cb){
         }
       });
     }
+    // gpio device logic
+    else if (device.type === "gpio") {
+      gpio.operate(device, device.codes[1 - device.state], function (err, result) {
+        if (err) return err;
+        // update and log device state change
+        if(updateState){
+          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+            if (err) return err;
+            if (cb) return cb(err, resp);
+          });
+        }
+      });
+    }
     // milight device logic
     else if (device.type === "miLight") {
       miLight.operate(device, cmd, hex, function (err, result) {
@@ -86,18 +114,20 @@ function deviceoperate(data, cb){
         }
       });
     }
-
-});
+  });
 }
 
 // set command to operate device
 router.route('/:device_id')
   // get device type for id
   .get(function(req, res) {
-      deviceoperate(req.params.device_id, function(err, resp){
-        if (err) return err;
-        res.json(resp);
-      });
+    var data = {
+      deviceid: req.params.device_id
+    };
+    deviceoperate(data, function(err, resp){
+      if (err) return res.json(err);
+      res.json(resp);
+    });
   });
 
 module.exports = {

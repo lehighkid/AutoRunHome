@@ -10,7 +10,7 @@ gulp.task('develop', function () {
     script: 'app.js',
     ignore: ['.idea/*', 'node_modules/*'],
     ext: 'js coffee jade',
-    exec: 'node-inspector & node --debug',
+    exec: 'node --debug',
     verbose: true
   }).on('restart', function () {
     setTimeout(function () {
