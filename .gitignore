@@ -4,3 +4,4 @@ public/components
 data/
 /config/auth.js
 /config/settings.js
+/public/img/browserconfig.xml

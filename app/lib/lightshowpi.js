@@ -8,35 +8,23 @@ var settings = require('./../../config/settings');
 
 format.extend(String.prototype);
 
-function sendcode(channelNumber, code, cmd, cb) {
-  //TODO:  wrap logig in try/catch block
-  //TODO:  interpret exec results properly
+function execute(channelNumber, code, cmd, cb) {
+  var cmds = {
+    toggle: settings.lightshowpi.execcmd.format(channelNumber, code),
+    music: settings.lightshowpi.execcmdM.format((code==="on") ? "start" : "stop")
+  };
 
-  if (cmd==="toggle") {
-    var child = exec(settings.lightshowpi.execcmd.format(channelNumber, code));
+  try {
+    exec(cmds[cmd]);
   }
-  else if (cmd==="music"){
-    var child = exec(settings.lightshowpi.execcmdM.format((code==="on") ? "start" : "stop"));
+  catch (err) {
+    if (cb) cb(err, -1);
   }
-
-
-  // listen for outputs
-  child.stdout.on('data', function(data) {
-    console.log('info:' + data);
-  });
-
-  // listen for errors
-  child.stderr.on('data', function(data) {
-    console.log('error:' + data);
-  });
-
-  // listen for close
-  child.on('close', function(code) {
-    if (cb) cb(null, code);
-  });
-
+  finally {
+    if (cb) cb('', 0);
+  }
 }
 
 module.exports = {
-  sendcode: sendcode
+  execute: execute
 };
