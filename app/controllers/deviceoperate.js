@@ -8,6 +8,7 @@ var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
 var gDoor = require('./../lib/gDoor');
 var rfDevice = require('./../lib/rfDevice');
+var mqtt = require('./../lib/mqtt');
 var lightshowpi = require('./../lib/lightshowpi');
 var dLock = require('./../lib/dLock');
 var gpio = require('./../lib/gpio');
@@ -36,9 +37,9 @@ function respond(endpoint, socket){
 
 function deviceoperate(data, cb){
   var deviceid = data.deviceid;
-  var cmd = (data.cmd === undefined) ? 'toggle' : data.cmd;
+  var cmd = data.cmd || 'toggle';
   var hex = data.hex;
-  var updateState = (data.updateState === undefined) ? true : data.updateState;
+  var updateState = data.updateState || true;
   Device.search(deviceid, function (err, device) {
     if (err) return err;
     // garage door logic
@@ -52,6 +53,19 @@ function deviceoperate(data, cb){
     // lightshowpi device logic
     else if (device.type === "lightshowpi") {
       lightshowpi.sendcode(device.channelNumber, device.codes[1 - device.state], function (err, result) {
+        if (err) return err;
+        // update and log device state change
+        if(updateState){
+          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
+            if (err) return err;
+            if (cb) return cb(err, resp);
+          });
+        }
+      });
+    }
+    // mqtt logic
+    else if (device.type === "mqtt") {
+      mqtt.sendcode(device.codes[1 - device.state], function (err, result) {
         if (err) return err;
         // update and log device state change
         if(updateState){

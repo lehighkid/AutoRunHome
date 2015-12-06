@@ -13,9 +13,9 @@ var _lastDash = {
 };
 
 var _lights = [
-  //"565f8613db96a301c4cdb54a", // all lights (lightshowpi)
+  "565f8613db96a301c4cdb54a", // all lights (lightshowpi)
   //"565e28ad17a67eababaeef1e",  // xmas tree (lightshowpi)
-  "565fc12f65b2fc916fbaccf2"    // xmas tree (gpio)
+  //"565fc12f65b2fc916fbaccf2"    // xmas tree (gpio)
 ];
 
 function updateLastDash(dashid, dashtime){
@@ -31,7 +31,7 @@ function respond(endpoint, socket){
 
   dash.on("detected", function (dash_id){
     // debounce button click
-    if (Date.now() - _lastDash.dashtime > 750) {
+    if (Date.now() - _lastDash.dashtime > 5000) {
 
       // lookup device id
       var data = {
