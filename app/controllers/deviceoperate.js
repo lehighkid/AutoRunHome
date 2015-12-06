@@ -61,7 +61,7 @@ function deviceoperate(data, cb) {
         lightshowpi.operate(devicedata.device.channelNumber, devicedata.device.codes[1 - devicedata.device.state], devicedata.cmd, cb)
       },
       gpio: function(devicedata, cb){
-        gpio.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
+        gpio.operate(devicedata.device, devicedata.device.codes[1 - devicedata.device.state], cb)
       },
       mqtt: function(devicedata, cb){
         mqtt.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
