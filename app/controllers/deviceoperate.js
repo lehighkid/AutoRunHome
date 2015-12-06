@@ -52,7 +52,7 @@ function deviceoperate(data, cb){
     }
     // lightshowpi device logic
     else if (device.type === "lightshowpi") {
-      lightshowpi.sendcode(device.channelNumber, device.codes[1 - device.state], function (err, result) {
+      lightshowpi.sendcode(device.channelNumber, device.codes[1 - device.state], cmd, function (err, result) {
         if (err) return err;
         // update and log device state change
         if(updateState){

@@ -8,11 +8,17 @@ var settings = require('./../../config/settings');
 
 format.extend(String.prototype);
 
-function sendcode(channelNumber, code, cb) {
+function sendcode(channelNumber, code, cmd, cb) {
   //TODO:  wrap logig in try/catch block
   //TODO:  interpret exec results properly
 
-  var child = exec(settings.lightshowpi.execcmd.format(channelNumber, code));
+  if (cmd==="toggle") {
+    var child = exec(settings.lightshowpi.execcmd.format(channelNumber, code));
+  }
+  else if (cmd==="music"){
+    var child = exec(settings.lightshowpi.execcmdM.format((code==="on") ? "start" : "stop"));
+  }
+
 
   // listen for outputs
   child.stdout.on('data', function(data) {

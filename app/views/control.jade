@@ -16,7 +16,7 @@ block content
                 //img.togcam(src="/img/webcam.png", alt="show camera")
               .checkbox
                 label
-                input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-cmd="toggle", data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
+                input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-cmd=device.cmd, data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
                 unless !device.colorControl
                   input.basic(type='text', data-cmd="hue")
                 div(class="text-muted devicedevchng")
