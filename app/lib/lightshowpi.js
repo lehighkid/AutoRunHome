@@ -8,13 +8,14 @@ var settings = require('./../../config/settings');
 
 format.extend(String.prototype);
 
-function execute(channelNumber, code, cmd, cb) {
+function operate(channelNumber, code, cmd, cb) {
   var cmds = {
     toggle: settings.lightshowpi.execcmd.format(channelNumber, code),
     music: settings.lightshowpi.execcmdM.format((code==="on") ? "start" : "stop")
   };
 
   try {
+    console.log(cmds[cmd]);
     exec(cmds[cmd]);
   }
   catch (err) {
@@ -26,5 +27,5 @@ function execute(channelNumber, code, cmd, cb) {
 }
 
 module.exports = {
-  execute: execute
+  operate: operate
 };

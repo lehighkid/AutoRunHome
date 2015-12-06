@@ -26,7 +26,6 @@ function init(app, passport, settings) {
   app.use('/deviceoperate', router);
 }
 
-
 function respond(endpoint, socket){
     _endpoint = endpoint;
 
@@ -35,98 +34,64 @@ function respond(endpoint, socket){
   });
 }
 
-function deviceoperate(data, cb){
-  var deviceid = data.deviceid;
-  var cmd = data.cmd || 'toggle';
-  var hex = data.hex;
-  var updateState = data.updateState || true;
-  Device.search(deviceid, function (err, device) {
+function updatestate(deviceid, devicestate, cb){
+  devicestateController.setdevicestate(deviceid, devicestate, function(err, resp){
     if (err) return err;
-    // garage door logic
-    if (device.type === "gDoor") {
-      gDoor.operate(device.id, function (err, result) {
-        if (err) return err;
-      });
-      // jump out of state loop since automatically detected by door
-      if (cb) return cb(err, result);
-    }
-    // lightshowpi device logic
-    else if (device.type === "lightshowpi") {
-      lightshowpi.execute(device.channelNumber, device.codes[1 - device.state], cmd, function (err, result) {
-        if (err) return err;
-        // update and log device state change
-        if(updateState){
-          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-            if (err) return err;
-            if (cb) return cb(err, resp);
-          });
-        }
-      });
-    }
-    // mqtt logic
-    else if (device.type === "mqtt") {
-      mqtt.sendcode(device.codes[1 - device.state], function (err, result) {
-        if (err) return err;
-        // update and log device state change
-        if(updateState){
-          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-            if (err) return err;
-            if (cb) return cb(err, resp);
-          });
-        }
-      });
-    }
-    // rf device logic
-    else if (device.type === "rfDevice") {
-      rfDevice.sendcode(device.codes[1 - device.state], function (err, result) {
-        if (err) return err;
-        // update and log device state change
-        if(updateState){
-          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-            if (err) return err;
-            if (cb) return cb(err, resp);
-          });
-        }
+    if (cb) return cb(err, resp);
+  });
+}
+
+function deviceoperate(data, cb) {
+  Device.search(data.deviceid, function (err, device) {
+    if (err) return err;
+
+    var deviceData = {
+      deviceid: data.deviceid,
+      cmd: data.cmd || 'toggle',
+      hex: data.cmd || 127,
+      updateState: data.updateState || true,
+      device: device
+    };
+
+    var ops = {
+      gDoor: function(devicedata, cb){
+        gDoor.operate(devicedata.deviceid, cb)
+      },
+      lightshowpi: function(devicedata, cb){
+        lightshowpi.operate(devicedata.device.channelNumber, devicedata.device.codes[1 - devicedata.device.state], devicedata.cmd, cb)
+      },
+      gpio: function(devicedata, cb){
+        gpio.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
+      },
+      mqtt: function(devicedata, cb){
+        mqtt.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
+      },
+      rfDevice: function(devicedata, cb){
+        rfDevice.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
+      },
+      dLock: function(devicedata, cb){
+        dLock.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
+      },
+      miLight: function(devicedata, cb){
+        miLight.operate(devicedata.device, devicedata.cmd, devicedata.hex, cb)
+      }
+    };
+
+    try {
+      ops[device.type](deviceData, function(err, result){
+        if(err) return (err);
       });
     }
-    // door lock device logic
-    else if (device.type === "dLock") {
-      dLock.operate(device.codes[1 - device.state], function (err, result) {
-        if (err) return err;
-        // update and log device state change
-        if(updateState){
-          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-            if (err) return err;
-            if (cb) return cb(err, resp);
-          });
-        }
-      });
+    catch (err) {
+      if (cb) cb(err, -1);
     }
-    // gpio device logic
-    else if (device.type === "gpio") {
-      gpio.operate(device, device.codes[1 - device.state], function (err, result) {
-        if (err) return err;
-        // update and log device state change
-        if(updateState){
-          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-            if (err) return err;
-            if (cb) return cb(err, resp);
-          });
-        }
-      });
-    }
-    // milight device logic
-    else if (device.type === "miLight") {
-      miLight.operate(device, cmd, hex, function (err, result) {
-        if (err) return err;
-        // update and log device state change
-        if(updateState){
-          devicestateController.setdevicestate(deviceid, !device.state, function(err, resp){
-            if (err) return err;
-            if (cb) return cb(err, resp);
-          });
-        }
-      });
+    finally {
+      if(data.updateState){
+        updatestate(deviceData.deviceid, !deviceData.device.state, function(err, resp){
+          console.log("State Update Request: err:", err, " resp: ", resp);
+        });
+      }
+      if (cb) cb('', 0);
     }
   });
 }

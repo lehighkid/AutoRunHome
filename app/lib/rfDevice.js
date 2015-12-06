@@ -7,7 +7,7 @@ var settings = require('./../../config/settings');
 
 format.extend(String.prototype);
 
-function sendcode(code, cb) {
+function operate(code, cb) {
   //TODO:  wrap logig in try/catch block
   //TODO:  interpret exec results properly
 
@@ -31,5 +31,5 @@ function sendcode(code, cb) {
 }
 
 module.exports = {
-  sendcode: sendcode
+  operate: operate
 };
