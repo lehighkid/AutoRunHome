@@ -64,7 +64,7 @@ function deviceoperate(data, cb) {
         gpio.operate(devicedata.device, devicedata.device.codes[1 - devicedata.device.state], cb)
       },
       mqtt: function(devicedata, cb){
-        mqtt.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
+        mqtt.operate(device, devicedata.cmd, cb)
       },
       rfDevice: function(devicedata, cb){
         rfDevice.operate(devicedata.device.codes[1 - devicedata.device.state], cb)

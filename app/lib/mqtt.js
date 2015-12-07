@@ -7,12 +7,25 @@ var settings = require('./../../config/settings');
 
 format.extend(String.prototype);
 
-function operate(code, cb) {
+function operate(device, cmd, cb) {
   //TODO:  wrap logig in try/catch block
   //TODO:  interpret exec results properly
 
-  console.log(settings.mqtt.execcmd.format(settings.mqtt.host, settings.mqtt.port, settings.mqtt.topic, code));
-  var child = exec(settings.mqtt.execcmd.format(settings.mqtt.host, settings.mqtt.port, settings.mqtt.topic, code));
+  var lspcmds = {
+    toggle: device.codes[1 - device.state],
+    music: (device.codes[1 - device.state] === "on") ? "start" : "stop"
+  };
+
+  var tops = {
+    rf: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.rftopic, device.codes[1 - device.state]),
+    gpio: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.gpiotopic.format(device.pinNumber), 1 - device.state),
+    lsp: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.lsptopic.format(cmd), lspcmds[cmd])
+  };
+
+  var mcmd = tops[device.subtype];
+
+  console.log(mcmd);
+  var child = exec(mcmd);
 
   // listen for outputs
   child.stdout.on('data', function(data) {

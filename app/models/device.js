@@ -24,6 +24,8 @@ var DeviceSchema = new Schema({
   , pinNumber: Number
   , channelNumber: Number
   , cmd : String
+  , host: String
+  , port: Number
 });
 
 // list all devices
@@ -60,7 +62,7 @@ DeviceSchema.statics.updateState = function updateState(id, state, statechanged,
 };
 
 // create new device
-DeviceSchema.statics.create = function create(name, description, type, subtype, typename, codes, remotenum, inuse, sortorder, webcamurl, state, zone, colorcontrol, pinnumber, channelnumber, cmd, cb) {
+DeviceSchema.statics.create = function create(name, description, type, subtype, typename, codes, remotenum, inuse, sortorder, webcamurl, state, zone, colorcontrol, pinnumber, channelnumber, host, port, cmd, cb) {
   var newdevice = new Device ({
     name: name,
     description: description,
@@ -78,7 +80,9 @@ DeviceSchema.statics.create = function create(name, description, type, subtype, 
     colorControl: colorcontrol,
     pinNumber: pinnumber,
     channelNumber: channelnumber,
-    cmd: cmd
+    cmd: cmd,
+    host: host,
+    port: port
   });
   newdevice.save(function(err) {
     if (err) return next(err);
