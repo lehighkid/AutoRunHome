@@ -13,6 +13,8 @@ function operate(device, cmd, cb) {
 
   var lspcmds = {
     toggle: device.codes[1 - device.state],
+    white: device.codes[1 - device.state],
+    color: device.codes[1 - device.state],
     music: (device.codes[1 - device.state] === "on") ? "start" : "stop"
   };
 
