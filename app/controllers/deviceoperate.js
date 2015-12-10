@@ -88,20 +88,24 @@ function deviceoperate(data, cb) {
     finally {
       if(data.updateState){
         updatestate(deviceData.deviceid, !deviceData.device.state, function(err, resp){
-          console.log("State Update Request: err:", err, " resp: ", resp);
+          //console.log("State Update Request: err:", err, " resp: ", resp);
+          if(cb) return cb(err, resp);
         });
       }
-      if (cb) cb('', 0);
+      else {
+        if (cb) cb('', 0);
+      }
     }
   });
 }
 
 // set command to operate device
-router.route('/:device_id')
+router.route('/:device_id/:updatestate')
   // get device type for id
   .get(function(req, res) {
     var data = {
-      deviceid: req.params.device_id
+      deviceid: req.params.device_id,
+      updateState: req.params.updatestate
     };
     deviceoperate(data, function(err, resp){
       if (err) return res.json(err);

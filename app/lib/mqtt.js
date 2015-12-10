@@ -19,9 +19,9 @@ function operate(device, cmd, cb) {
   };
 
   var tops = {
-    rf: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.rftopic, device.codes[1 - device.state]),
-    gpio: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.gpiotopic.format(device.pinNumber), 1 - device.state),
-    lsp: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.lsptopic.format(cmd), lspcmds[cmd])
+    rf: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.rftopic.format(device.rpi, cmd), device.codes[1 - device.state]),
+    gpio: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.gpiotopic.format(device.rpi, device.pinNumber), 1 - device.state),
+    lsp: settings.mqtt.execcmd.format(device.host, device.port, settings.mqtt.lsptopic.format(device.rpi, cmd), lspcmds[cmd])
   };
 
   var mcmd = tops[device.subtype];
