@@ -6,12 +6,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
-var gDoor = require('./../lib/gDoor');
-var rfDevice = require('./../lib/rfDevice');
 var mqtt = require('./../lib/mqttClient');
-var lightshowpi = require('./../lib/lightshowpi');
-var dLock = require('./../lib/dLock');
-var gpio = require('./../lib/gpio');
 var miLight = require('./../lib/miLight');
 var moment = require('moment');
 var devicestateController = require('./devicestate');
@@ -54,23 +49,8 @@ function deviceoperate(data, cb) {
     };
 
     var ops = {
-      gDoor: function(devicedata, cb){
-        gDoor.operate(devicedata.deviceid, cb)
-      },
-      lightshowpi: function(devicedata, cb){
-        lightshowpi.operate(devicedata.device.channelNumber, devicedata.device.codes[1 - devicedata.device.state], devicedata.cmd, cb)
-      },
-      gpio: function(devicedata, cb){
-        gpio.operate(devicedata.device, devicedata.device.codes[1 - devicedata.device.state], cb)
-      },
       mqtt: function(devicedata, cb){
         mqtt.operate(device, devicedata.cmd, cb)
-      },
-      rfDevice: function(devicedata, cb){
-        rfDevice.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
-      },
-      dLock: function(devicedata, cb){
-        dLock.operate(devicedata.device.codes[1 - devicedata.device.state], cb)
       },
       miLight: function(devicedata, cb){
         miLight.operate(devicedata.device, devicedata.cmd, devicedata.hex, cb)
