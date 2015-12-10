@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var moment = require('moment');
+var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
 var mqtt = require('./../lib/mqttClient');
 
@@ -26,22 +27,24 @@ function respond(endpoint, socket){
 
 function setdevicestate(deviceid, devicestate, cb) {
   console.log('devicestate change requsted: ' + deviceid + ' to ' + devicestate);
-  Devicestate.create(deviceid, devicestate, function (err, newdevicestate) {
-    if (err) return next(err);
-    var resp = {
-      id: newdevicestate._device,
-      state: newdevicestate.state,
-      changed: moment(newdevicestate.changed).format("MM/DD/YY HH:mm:ss")
-    };
-    // socket.io update for web client
-    _endpoint.emit('deviceoperated', JSON.stringify(resp));
+    Devicestate.create(deviceid, devicestate, function (err, newdevicestate) {
+      if (err) return next(err);
+      var resp = {
+        id: newdevicestate.id,
+        state: newdevicestate.state,
+        changed: moment(newdevicestate.changed).format("MM/DD/YY HH:mm:ss"),
+        name: newdevicestate.name
+      };
 
-    // mqtt update for node-red clients
-    var topic = 'devicestatechange/{0}/{1}'.format(deviceid, resp.state);
-    mqtt.broadcast(topic, JSON.stringify(resp));
+      // socket.io update for web client
+      _endpoint.emit('deviceoperated', JSON.stringify(resp));
 
-    if (cb) return cb(err, newdevicestate);
-  });
+      // mqtt update for node-red clients
+      var topic = 'devicestatechange/{0}/{1}'.format(deviceid, resp.state);
+      mqtt.broadcast(topic, JSON.stringify(resp));
+
+      if (cb) return cb(err, newdevicestate);
+    });
 }
 
 // set device state
