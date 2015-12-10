@@ -8,7 +8,6 @@ var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
 var mqtt = require('./../lib/mqttClient');
 var miLight = require('./../lib/miLight');
-var moment = require('moment');
 var devicestateController = require('./devicestate');
 
 var _endpoint;
