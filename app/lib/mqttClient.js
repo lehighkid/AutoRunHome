@@ -17,9 +17,9 @@ function operate(device, cmd, cb) {
   };
 
   var msgs = {
-    rf: {topic: settings.mqtt.rftopic.format(device.rpi, cmd), msg: device.codes[1 - device.state]},
-    gpio: {topic: settings.mqtt.gpiotopic.format(device.rpi, device.pinNumber), msg: 1 - device.state},
-    lsp: {topic: settings.mqtt.lsptopic.format(device.rpi, cmd), msg: lspcmds[cmd]}
+    rf: {topic: settings.mqtt.rftopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
+    gpio: {topic: settings.mqtt.gpiotopic.format(device.rpi, device.pinNumber), msg: String(1 - device.state)},
+    lsp: {topic: settings.mqtt.lsptopic.format(device.rpi, cmd), msg: String(lspcmds[cmd])}
   };
 
   var msg = msgs[device.subtype];
