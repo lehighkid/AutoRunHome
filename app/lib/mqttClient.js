@@ -13,7 +13,8 @@ function operate(device, cmd, cb) {
     toggle: device.codes[1 - device.state],
     white: device.codes[1 - device.state],
     color: device.codes[1 - device.state],
-    music: (device.codes[1 - device.state] === "on") ? "start" : "stop"
+    music: (device.codes[1 - device.state] === "on") ? "start" : "stop",
+    random: (device.codes[1 - device.state] === "on") ? "start" : "stop"
   };
 
   var msgs = {
