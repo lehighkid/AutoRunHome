@@ -25,7 +25,7 @@ function respond(endpoint, socket){
   _socket = socket;
 }
 
-function setdevicestate(deviceid, devicestate, cb) {
+function setdevicestate(deviceid, devicestate, notify, cb) {
   console.log('devicestate change requsted: ' + deviceid + ' to ' + devicestate);
     Devicestate.create(deviceid, devicestate, function (err, newdevicestate) {
       if (err) return next(err);
@@ -39,9 +39,11 @@ function setdevicestate(deviceid, devicestate, cb) {
       // socket.io update for web client
       _endpoint.emit('deviceoperated', JSON.stringify(resp));
 
-      // mqtt update for node-red clients
-      var topic = 'devicestatechange/{0}/{1}'.format(deviceid, resp.state);
-      mqtt.broadcast(topic, JSON.stringify(resp));
+      if(notify) {
+        // mqtt update for node-red clients
+        var topic = 'devicestatechange/{0}/{1}'.format(deviceid, resp.state);
+        mqtt.broadcast(topic, JSON.stringify(resp));
+      }
 
       if (cb) return cb(err, newdevicestate);
     });
@@ -50,7 +52,7 @@ function setdevicestate(deviceid, devicestate, cb) {
 // set device state
 router.route('/:device_id/:device_state')
   .put(function(req, res) {
-    setdevicestate(req.params.device_id, req.params.device_state, function(err, resp){
+    setdevicestate(req.params.device_id, req.params.device_state, true, function(err, resp){
       if (err) return next(err);
       res.json(resp);
     });

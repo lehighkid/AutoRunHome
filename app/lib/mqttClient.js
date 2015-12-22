@@ -13,13 +13,15 @@ function operate(device, cmd, cb) {
     toggle: device.codes[1 - device.state],
     white: device.codes[1 - device.state],
     color: device.codes[1 - device.state],
+    bushes: device.codes[1 - device.state],
     music: (device.codes[1 - device.state] === "on") ? "start" : "stop",
-    random: (device.codes[1 - device.state] === "on") ? "start" : "stop"
+    random: (device.codes[1 - device.state] === "on") ? "start" : "stop",
+    sequence: (device.codes[1 - device.state] === "on") ? "start" : "stop"
   };
 
   var msgs = {
     rf: {topic: settings.mqtt.rftopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
-    gpio: {topic: settings.mqtt.gpiotopic.format(device.rpi, device.pinNumber), msg: String(1 - device.state)},
+    gpio: {topic: settings.mqtt.gpiotopic.format(device.rpi, device.channelNumber), msg: String(1 - device.state)},
     lsp: {topic: settings.mqtt.lsptopic.format(device.rpi, cmd), msg: String(lspcmds[cmd])}
   };
 

@@ -10,13 +10,12 @@ block content
               h2 #{type.typeName}
             for device in devicetype.devices
               h3(style="display:inline;") #{device.name} &nbsp;
-              unless !device.webcamurl
-                button(type="button", class="btn btn-default togcam")
-                  span(class="glyphicon glyphicon-facetime-video" aria-hidden="true")
-                //img.togcam(src="/img/webcam.png", alt="show camera")
               .checkbox
                 label
                 input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-cmd=device.cmd, data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
+                unless !device.webcamurl
+                  button(type="button", class="btn btn-default togcam")
+                    span(class="glyphicon glyphicon-facetime-video")
                 unless !device.colorControl
                   input.basic(type='text', data-cmd="hue")
                 div(class="text-muted devicedevchng")

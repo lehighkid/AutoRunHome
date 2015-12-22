@@ -24,18 +24,18 @@ function respond(endpoint, socket){
     _endpoint = endpoint;
 
   socket.on('deviceoperate', function(data){
-    deviceoperate(data);
+    deviceoperate(data, false);
   });
 }
 
-function updatestate(deviceid, devicestate, cb){
-  devicestateController.setdevicestate(deviceid, devicestate, function(err, resp){
+function updatestate(deviceid, devicestate, notify, cb){
+  devicestateController.setdevicestate(deviceid, devicestate, notify, function(err, resp){
     if (err) return err;
     if (cb) return cb(err, resp);
   });
 }
 
-function deviceoperate(data, cb) {
+function deviceoperate(data, notify, cb) {
   Device.search(data.deviceid, function (err, device) {
     if (err) return err;
 
@@ -66,7 +66,7 @@ function deviceoperate(data, cb) {
     }
     finally {
       if(data.updateState){
-        updatestate(deviceData.deviceid, !deviceData.device.state, function(err, resp){
+        updatestate(deviceData.deviceid, !deviceData.device.state, notify, function(err, resp){
           //console.log("State Update Request: err:", err, " resp: ", resp);
           if(cb) return cb(err, resp);
         });
@@ -86,7 +86,7 @@ router.route('/:device_id/:updatestate')
       deviceid: req.params.device_id,
       updateState: req.params.updatestate
     };
-    deviceoperate(data, function(err, resp){
+    deviceoperate(data, true, function(err, resp){
       if (err) return res.json(err);
       res.json(resp);
     });
