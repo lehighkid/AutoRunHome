@@ -12,7 +12,10 @@ block content
               h3(style="display:inline;") #{device.name} &nbsp;
               .checkbox
                 label
-                input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-cmd=device.cmd, data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
+                if device.ctrlType == 'button'
+                  button.btn.btn-default.deviceb(id=device.id, type='button', name=device.name, data-cmd=device.cmd, data-type=device.type) Toggle
+                else
+                  input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-cmd=device.cmd, data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
                 unless !device.webcamurl
                   button(type="button", class="btn btn-default togcam")
                     span(class="glyphicon glyphicon-facetime-video")

@@ -1,5 +1,6 @@
 $(document).ready(function() {
   var devices = $('.device').bootstrapSwitch();
+  var devicebs = $('.deviceb');
   var cpickers = $('.basic').spectrum({showAlpha: true});
   var socket = io.connect();
 
@@ -24,6 +25,15 @@ $(document).ready(function() {
     socket.emit('deviceoperate', data);
   });
 
+  devicebs.on('click', function() {
+    var data = {
+      deviceid: this.getAttribute("id"),
+      cmd: this.getAttribute("data-cmd"),
+      updateState: true
+    };
+    socket.emit('deviceoperate', data);
+  });
+
   devices.on('switchChange.bootstrapSwitch', function(event, state) {
     var data = {
       deviceid: this.getAttribute("id"),
@@ -36,7 +46,7 @@ $(document).ready(function() {
   socket.on('deviceoperated', function(data) {
     var resp = JSON.parse(data);
     var device = $("#" + resp.id);
-    if(device.bootstrapSwitch("state") != resp.state ) {
+    if(device.hasClass('device') && device.bootstrapSwitch("state") != resp.state ) {
       device.bootstrapSwitch('state', resp.state, true);
     }
     device.attr("data-state", resp.state);
