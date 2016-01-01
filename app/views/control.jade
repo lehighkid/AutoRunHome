@@ -13,7 +13,7 @@ block content
               .checkbox
                 label
                 if device.ctrlType == 'button'
-                  button.btn.btn-default.deviceb(id=device.id, type='button', name=device.name, data-cmd=device.cmd, data-type=device.type) Toggle
+                  button.btn.btn-default.deviceb(id=device.id, type='button', name=device.name, data-cmd=device.cmd, data-type=device.type) Operate
                 else
                   input.device(id=device.id, type='checkbox', name=device.name, checked=(device.state ? "checked" : undefined), data-cmd=device.cmd, data-state="#{device.state}", data-type=device.type, data-codes!=("#{device.codes}"), data-on-text=device.dataon, data-off-text=device.dataoff, data-on-color="success")
                 unless !device.webcamurl
@@ -31,9 +31,9 @@ block content
   // /container
 
 block clientjs
-  script(src='http://bgrins.github.io/spectrum/spectrum.js')
+  script(src='//bgrins.github.io/spectrum/spectrum.js')
   script(src='/js/control.js')
 
 block clientcss
-  link(rel='stylesheet', href='http://bgrins.github.io/spectrum/spectrum.css')
+  link(rel='stylesheet', href='//bgrins.github.io/spectrum/spectrum.css')
 

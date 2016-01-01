@@ -11,6 +11,7 @@ module.exports = {
     rftopic: 'codesend/{0}/{1}',
     lsptopic: 'lightshowpi/{0}/{1}',
     gpiotopic: 'gpio/{0}/{1}',
+    cmdtopic: 'cmd/{0}/{1}',
     broker: 'mqtt://10.0.1.4:1883'
   }
 };
