@@ -9,6 +9,8 @@ var DevicestateSchema = new Schema({
     _device: { type: Schema.ObjectId, ref: 'Device'}
   , changed: { type: Date, default: Date.now}
   , state: Boolean
+  , notify: Boolean
+  , source: String
 
 });
 
@@ -22,16 +24,18 @@ DevicestateSchema.statics.search = function search(deviceid, cb) {
 };
 
 // insert new device state
-DevicestateSchema.statics.create = function create(deviceid, state, cb) {
+DevicestateSchema.statics.create = function create(deviceid, state, notify, source, cb) {
   var newdevicestate = new Devicestate({
     _device: deviceid,
     state: state,
-    changed: new Date()
+    changed: new Date(),
+    notify: notify,
+    source: source
   });
 
   newdevicestate.save(function(err) {
     if (err) return next(err);
-    Device.updateState(deviceid, state, newdevicestate.changed, function(err, updateddevice){
+    Device.updateState(deviceid, state, newdevicestate.changed, notify, source, function(err, updateddevice){
       if (cb) cb(err, updateddevice);
     });
   });

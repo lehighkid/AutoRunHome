@@ -29,6 +29,8 @@ var DeviceSchema = new Schema({
   , rpi: String
   , ctrlType: String
   , execCmd: String
+  , statesource: String
+  , statenotified: Boolean
 });
 
 // list all devices
@@ -50,11 +52,13 @@ DeviceSchema.statics.search = function search(id, cb) {
 };
 
 // update device state by id
-DeviceSchema.statics.updateState = function updateState(id, state, statechanged, cb){
+DeviceSchema.statics.updateState = function updateState(id, state, statechanged, notify, source, cb){
   Device.findById(id, function (err, device) {
     if (err) return next(err);
     device.state = state;
     device.statechanged = statechanged;
+    device.statenotified = notify;
+    device.statesource = source;
     device.save(function(err) {
       if (err) return next(err);
       if (cb) {
