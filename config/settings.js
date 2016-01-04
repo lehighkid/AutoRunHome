@@ -16,5 +16,11 @@ module.exports = {
   },
   sammytv: {
 
+  },
+  nodered: {
+    httpAdminRoot: "/red",
+    httpNodeRoot: "/api",
+    userDir: "/home/pi/.nodered-i/",
+    functionGlobalContext: { }    // enables global context
   }
 };
