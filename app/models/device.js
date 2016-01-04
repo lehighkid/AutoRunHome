@@ -28,9 +28,11 @@ var DeviceSchema = new Schema({
   , port: Number
   , rpi: String
   , ctrlType: String
+  , ctrlText: String
   , execCmd: String
   , statesource: String
   , statenotified: Boolean
+  , ipadd: String
 });
 
 // list all devices
@@ -69,7 +71,7 @@ DeviceSchema.statics.updateState = function updateState(id, state, statechanged,
 };
 
 // create new device
-DeviceSchema.statics.create = function create(name, description, type, subtype, typename, codes, remotenum, inuse, sortorder, webcamurl, state, zone, colorcontrol, pinnumber, channelnumber, host, port, cmd, rpi, ctrltype, execcmd, cb) {
+DeviceSchema.statics.create = function create(name, description, type, subtype, typename, codes, remotenum, inuse, sortorder, webcamurl, state, zone, colorcontrol, pinnumber, channelnumber, host, port, cmd, rpi, ctrltype, ctrltext, execcmd, ipadd, cb) {
   var newdevice = new Device ({
     name: name,
     description: description,
@@ -92,7 +94,9 @@ DeviceSchema.statics.create = function create(name, description, type, subtype, 
     port: port,
     rpi: rpi,
     ctrlType: ctrltype,
-    execCmd: execcmd
+    ctrlText: ctrltext,
+    execCmd: execcmd,
+    ipadd: ipadd
   });
   newdevice.save(function(err) {
     if (err) return next(err);

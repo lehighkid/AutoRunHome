@@ -8,6 +8,7 @@ var Device = mongoose.model('Device');
 var Devicestate = mongoose.model('Devicestate');
 var mqtt = require('./../lib/mqttClient');
 var miLight = require('./../lib/miLight');
+var sammytv = require('./../lib/sammytv');
 var devicestateController = require('./devicestate');
 
 var _endpoint;
@@ -53,6 +54,9 @@ function deviceoperate(data, notify, source, cb) {
       },
       miLight: function(devicedata, cb){
         miLight.operate(devicedata.device, devicedata.cmd, devicedata.hex, cb)
+      },
+      sammytv: function(devicedata, cb){
+        sammytv.operate(devicedata.device, devicedata.cmd, cb)
       }
     };
 
