@@ -20,7 +20,9 @@ $(document).ready(function() {
       deviceid: $(this).parent().find('.device').attr('id'),
       cmd: this.getAttribute("data-cmd"),
       hex: color.toHexString(),
-      updateState: false
+      updateState: false,
+      source: 'jsWebsocket',
+      notify: false
     };
     socket.emit('deviceoperate', data);
   });
@@ -29,7 +31,9 @@ $(document).ready(function() {
     var data = {
       deviceid: this.getAttribute("id"),
       cmd: this.getAttribute("data-cmd"),
-      updateState: true
+      updateState: true,
+      source: 'jsWebsocket',
+      notify: false
     };
     socket.emit('deviceoperate', data);
   });
@@ -38,7 +42,9 @@ $(document).ready(function() {
     var data = {
       deviceid: this.getAttribute("id"),
       cmd: this.getAttribute("data-cmd"),
-      updateState: true
+      updateState: true,
+      source: 'jsWebsocket',
+      notify: false
     };
     socket.emit('deviceoperate', data);
   });

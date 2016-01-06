@@ -25,7 +25,7 @@ function respond(endpoint, socket){
     _endpoint = endpoint;
 
   socket.on('deviceoperate', function(data){
-    deviceoperate(data, false, 'websocket');
+    deviceoperate(data, data.notify, data.source);
   });
 }
 
@@ -42,7 +42,7 @@ function deviceoperate(data, notify, source, cb) {
 
     var deviceData = {
       deviceid: data.deviceid,
-      cmd: data.cmd || 'toggle',
+      cmd: data.cmd || device.cmd || 'toggle',
       hex: data.cmd || 127,
       updateState: data.updateState || true,
       device: device

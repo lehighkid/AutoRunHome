@@ -6,8 +6,6 @@ var settings = require('./settings');
 
 function init(server, app){
 
-  console.log(settings.nodered);
-
   // Initialise the runtime with a server and settings
   RED.init(server, settings.nodered);
 

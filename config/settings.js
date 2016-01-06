@@ -21,6 +21,7 @@ module.exports = {
     httpAdminRoot: "/red",
     httpNodeRoot: "/api",
     userDir: "/home/pi/.nodered-i/",
+    nodesDir: '/home/pi/.nodered-i/nodes',
     functionGlobalContext: { }    // enables global context
   }
 };
