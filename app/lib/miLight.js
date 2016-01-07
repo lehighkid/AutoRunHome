@@ -9,7 +9,7 @@ var wCmd = require('./../helpers/ledCommands');
 
 format.extend(String.prototype);
 
-function operate(miLightdevice, cmd, hex, cb) {
+function operate(miLightdevice, cmd, hex, hsl, rgb, cb) {
   var led = new WifiBoxModule(settings.milight.wifiboxip, settings.milight.wifiboxport);
 
   var cmdNm;
@@ -21,7 +21,9 @@ function operate(miLightdevice, cmd, hex, cb) {
   }
   else if (cmd=='hue') {
     cmdNm = cmd;
-    cmdF = cmdGrp[cmdNm](miLightdevice.zone, 77)
+    var hOfhsl = hsl["h"];
+    var color = hslToMilightColor(hOfhsl);
+    cmdF = cmdGrp[cmdNm](miLightdevice.zone, color)
   }
 
   led.command(cmdF, function (err, result) {
@@ -32,6 +34,11 @@ function operate(miLightdevice, cmd, hex, cb) {
 
   //_led.command(cmd.rgbw.hue(100));
   //led.command(cmd.rgb.hue(240));
+}
+
+function hslToMilightColor(hOfhsl)
+{
+  return ~~(256 + 176 - (hOfhsl / 360.0 * 255.0)) % 256;
 }
 
 module.exports = {

@@ -43,7 +43,9 @@ function deviceoperate(data, notify, source, cb) {
     var deviceData = {
       deviceid: data.deviceid,
       cmd: data.cmd || device.cmd || 'toggle',
-      hex: data.cmd || 127,
+      hex: data.hex,
+      hsl: data.hsl,
+      rgb: data.rgb,
       updateState: data.updateState || true,
       device: device
     };
@@ -53,7 +55,7 @@ function deviceoperate(data, notify, source, cb) {
         mqtt.operate(device, devicedata.cmd, cb)
       },
       miLight: function(devicedata, cb){
-        miLight.operate(devicedata.device, devicedata.cmd, devicedata.hex, cb)
+        miLight.operate(devicedata.device, devicedata.cmd, devicedata.hex, devicedata.hsl, devicedata.rgb, cb)
       },
       sammytv: function(devicedata, cb){
         sammytv.operate(devicedata.device, devicedata.cmd, cb)

@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var devices = $('.device').bootstrapSwitch();
   var devicebs = $('.deviceb');
-  var cpickers = $('.basic').spectrum({showAlpha: true});
+  var cpickers = $('.basic').spectrum({});
   var socket = io.connect();
 
   $('.togcam').click(function(){
@@ -19,7 +19,9 @@ $(document).ready(function() {
     var data = {
       deviceid: $(this).parent().find('.device').attr('id'),
       cmd: this.getAttribute("data-cmd"),
-      hex: color.toHexString(),
+      hex: color.toHex(),
+      hsl: color.toHsl(),
+      rgb: color.toRgb(),
       updateState: false,
       source: 'jsWebsocket',
       notify: false
