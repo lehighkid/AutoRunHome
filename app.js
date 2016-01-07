@@ -1,8 +1,8 @@
-var express = require('express'),
-  http = require('http'),
-  config = require('./config/config'),
-  glob = require('glob'),
-  mongoose = require('mongoose');
+var express = require('express');
+var http = require('http');
+var config = require('./config/config');
+var glob = require('glob');
+var mongoose = require('mongoose');
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -24,7 +24,8 @@ var server = http.createServer(app);
 var nodered = require('./config/nodered');
 nodered.init(server, app);
 
-require('./config/express')(app, config);
+var exp = require('./config/express');
+exp.init(app, config);
 
 server.listen(config.port);
 
