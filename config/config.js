@@ -8,7 +8,7 @@ var config = {
     app: {
       name: 'autorunhome'
     },
-    port: 3000,
+    port: 3001,
     db: 'mongodb://localhost/autorunhome-development'
   },
 
@@ -17,7 +17,7 @@ var config = {
     app: {
       name: 'autorunhome'
     },
-    port: 3000,
+    port: 3002,
     db: 'mongodb://localhost/autorunhome-test'
   },
 

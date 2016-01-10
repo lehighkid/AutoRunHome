@@ -12,7 +12,8 @@ module.exports = {
     lsptopic: 'lightshowpi/{0}/{1}',
     gpiotopic: 'gpio/{0}/{1}',
     cmdtopic: 'cmd/{0}/{1}',
-    broker: 'mqtt://10.0.1.4:1883'
+    doortopic: 'door/{0}/{1}',
+    broker: 'mqtt://10.0.1.13:1883'
   },
   sammytv: {
 
@@ -20,8 +21,8 @@ module.exports = {
   nodered: {
     httpAdminRoot: "/red",
     httpNodeRoot: "/api",
-    userDir: "/home/pi/.nodered-i/",
-    nodesDir: '/home/pi/.nodered-i/nodes',
+    userDir: "/Users/aarondrago/.nodered-i/",
+    nodesDir: '/Users/aarondrago/.nodered-i/nodes',
     functionGlobalContext: { }    // enables global context
   }
 };
