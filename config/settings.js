@@ -8,11 +8,13 @@ module.exports = {
     wifiboxport: '8899'
   },
   mqtt: {
+    ctrltopic: 'home/controllers/{0}/{1}/control',
     rftopic: 'codesend/{0}/{1}',
     lsptopic: 'lightshowpi/{0}/{1}',
     gpiotopic: 'gpio/{0}/{1}',
     cmdtopic: 'cmd/{0}/{1}',
     doortopic: 'door/{0}/{1}',
+    horntopic: 'goal/{0}/{1}',
     broker: 'mqtt://10.0.1.13:1883'
   },
   sammytv: {

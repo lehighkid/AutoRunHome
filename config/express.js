@@ -13,6 +13,8 @@ function init(app, config){
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
+  app.locals.ENV_TEST = env == 'test';
+  app.locals.ENV_PRODUCTION = env == 'production';
   app.locals._ = require('underscore');
   app.locals.moment = require('moment');
 
