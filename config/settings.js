@@ -10,6 +10,7 @@ module.exports = {
   mqtt: {
     ctrltopic: 'home/controllers/{0}/{1}/control',
     rftopic: 'codesend/{0}/{1}',
+    irtopic: 'irsend/{0}/{1}',
     lsptopic: 'lightshowpi/{0}/{1}',
     gpiotopic: 'gpio/{0}/{1}',
     cmdtopic: 'cmd/{0}/{1}',

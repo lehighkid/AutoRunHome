@@ -21,6 +21,7 @@ function operate(device, cmd, cb) {
 
   var msgs = {
     rf: {topic: settings.mqtt.rftopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
+    ir: {topic: settings.mqtt.irtopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
     gpio: {topic: settings.mqtt.gpiotopic.format(device.rpi, device.channelNumber), msg: String(1 - device.state)},
     lsp: {topic: settings.mqtt.lsptopic.format(device.rpi, cmd), msg: String(lspcmds[cmd])},
     cmd: {topic: settings.mqtt.cmdtopic.format(device.rpi, cmd), msg: String(device.execCmd)},
