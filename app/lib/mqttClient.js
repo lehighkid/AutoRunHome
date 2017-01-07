@@ -24,7 +24,7 @@ function operate(device, cmd, cb) {
     ir: {topic: settings.mqtt.irtopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
     gpio: {topic: settings.mqtt.gpiotopic.format(device.rpi, device.channelNumber), msg: String(1 - device.state)},
     lsp: {topic: settings.mqtt.lsptopic.format(device.rpi, cmd), msg: String(lspcmds[cmd])},
-    cmd: {topic: settings.mqtt.cmdtopic.format(device.rpi, cmd), msg: String(device.execCmd)},
+    cmd: {topic: settings.mqtt.cmdtopic.format(device.rpi, cmd), msg: String(device.execCmd).format(device.codes[1 - device.state])},
     door: {topic: settings.mqtt.doortopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
     horn: {topic: settings.mqtt.horntopic.format(device.rpi, cmd), msg: String(device.execCmd)},
     controller: {topic: settings.mqtt.ctrltopic.format(device.controllerId, device._id), msg: String(device.codes[1 - device.state])}

@@ -8,9 +8,9 @@ html(lang='en')
     block clientcss
 
     block css
-      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
-      link(rel='stylesheet', href='/css/bootstrap-switch.min.css')
+      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css')
+      link(rel='stylesheet', href='//www.bootstrap-switch.org/dist/css/bootstrap3/bootstrap-switch.css')
       link(rel='stylesheet', href='/css/style.css')
 
     block icons
@@ -61,16 +61,10 @@ html(lang='en')
           p.text-muted AutoRunHome - Learning to Automate Your Home with the Raspberry Pi
 
     block layoutjs
-      if ENV_DEVELOPMENT
-        script(src='//localhost:35729/livereload.js')
-        script(src='//10.0.1.13:3001/socket.io/socket.io.js')
-      if ENV_TEST
-        script(src='//10.0.1.13:3002/socket.io/socket.io.js')
-      if ENV_PRODUCTION
-        script(src='//10.0.1.13:3000/socket.io/socket.io.js')
-    script(src='//code.jquery.com/jquery-2.1.4.min.js')
-    script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-    script(src='/js/bootstrap-switch.min.js')
+    script(src='//cdn.socket.io/socket.io-1.4.5.js')
+    script(src='//code.jquery.com/jquery-3.1.0.min.js')
+    script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script(src='//www.bootstrap-switch.org/dist/js/bootstrap-switch.js')
 
 
     block clientjs

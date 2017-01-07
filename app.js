@@ -32,4 +32,4 @@ server.listen(config.port);
 var io = require('socket.io').listen(server);
 require('./config/socket')(io);
 
-nodered.start();
+//nodered.start();
