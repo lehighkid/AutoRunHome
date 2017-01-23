@@ -28,6 +28,7 @@ function operate(device, cmd, cb) {
     cmd: {topic: settings.mqtt.cmdtopic.format(device.rpi, cmd), msg: String(device.execCmd).format(device.codes[1 - device.state])},
     door: {topic: settings.mqtt.doortopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
     horn: {topic: settings.mqtt.horntopic.format(device.rpi, cmd), msg: String(device.execCmd)},
+    group: {topic: settings.mqtt.grptopic.format(device.rpi, cmd), msg: String(device.codes[1 - device.state])},
     controller: {topic: settings.mqtt.ctrltopic.format(device.controllerId, device._id), msg: String(device.codes[1 - device.state])}
   };
 

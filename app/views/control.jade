@@ -3,7 +3,7 @@ extends layout
 block content
   .container.theme-showcase(role='main')
     .row
-    for devicetype in devices
+    for devicetype in devices.reverse()
       for type in devicetype._id
         .col-sm-3
           .page-header

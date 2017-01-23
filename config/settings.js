@@ -17,6 +17,7 @@ module.exports = {
     cmdtopic: 'cmd/{0}/{1}',
     doortopic: 'door/{0}/{1}',
     horntopic: 'goal/{0}/{1}',
+    grptopic: 'group/{0}/{1}',
     broker: 'mqtt://10.0.1.13:1883'
   },
   sammytv: {
@@ -27,6 +28,6 @@ module.exports = {
     httpNodeRoot: "/api",
     userDir: "/Users/aarondrago/.nodered-i/",
     nodesDir: '/Users/aarondrago/.nodered-i/nodes',
-    functionGlobalContext: { }    // enables global context
+    functionGlobalContext: {'guidModule':require('guid') }    // enables global context
   }
 };
