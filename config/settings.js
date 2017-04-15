@@ -12,13 +12,16 @@ module.exports = {
     rftopic: 'codesend/{0}/{1}',
     irtopic: 'irsend/{0}/{1}',
     wemotopic: 'wemo/{0}/{1}',
+    alarmtopic: 'c232/alarm/{0}',
     lsptopic: 'lightshowpi/{0}/{1}',
     gpiotopic: 'gpio/{0}/{1}',
     cmdtopic: 'cmd/{0}/{1}',
     doortopic: 'door/{0}/{1}',
+    zwavetopic: 'zwave/{0}/{1}/{2}',
     horntopic: 'goal/{0}/{1}',
     grptopic: 'group/{0}/{1}',
-    broker: 'mqtt://10.0.1.13:1883'
+    broker: 'mqtt://10.0.1.13:1883',
+    sonofftopic: 'cmnd/{0}/power'
   },
   sammytv: {
 
