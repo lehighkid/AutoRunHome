@@ -32,7 +32,8 @@ function operate(device, cmd, cb) {
     horn: {topic: settings.mqtt.horntopic.format(device.rpi, cmd), msg: String(device.execCmd)},
     group: {topic: settings.mqtt.grptopic.format(device.rpi, cmd), msg: String(!device.state)},
     controller: {topic: settings.mqtt.ctrltopic.format(device.controllerId, device._id), msg: String(device.codes[1 - device.state])},
-    sonoff: {topic: settings.mqtt.sonofftopic.format(device.topicName), msg: String(device.codes[1 - device.state])}
+    sonoff: {topic: settings.mqtt.sonofftopic.format(device.topicName, device.channelNumber), msg: String(device.codes[1 - device.state])},
+    ospi: {topic: settings.mqtt.ospitopic.format(String(device.isProgram), String(device.zone), String(device.duration)), msg: String(device.codes[1 - device.state])}
   };
 
   var msg = msgs[device.subtype];
