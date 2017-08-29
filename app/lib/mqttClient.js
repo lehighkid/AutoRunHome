@@ -4,8 +4,22 @@
 var format = require('string-format');
 var settings = require('./../../config/settings');
 var mqtt = require('mqtt');
+var fs = require('fs');
 
 format.extend(String.prototype);
+
+var options = {
+  port: settings.mqtt.port,
+  host: settings.mqtt.host,
+  key: fs.readFileSync(settings.mqtt.key),
+  cert: fs.readFileSync(settings.mqtt.cert),
+  ca: fs.readFileSync(settings.mqtt.ca),
+  protocol: 'mqtts',    //also add this
+  //protocolId: 'MQIsdp',
+  secureProtocol: 'TLSv1_method',
+  //protocolVersion: 3
+  //rejectUnauthorized: false
+};
 
 function operate(device, cmd, cb) {
 
@@ -37,14 +51,14 @@ function operate(device, cmd, cb) {
   };
 
   var msg = msgs[device.subtype];
-  var client  = mqtt.connect(settings.mqtt.broker);
+  var client  = mqtt.connect(options);
   client.publish(msg.topic, msg.msg);
   client.end();
 
 }
 
 function broadcast(topic, msg, cb){
-  var client  = mqtt.connect(settings.mqtt.broker);
+  var client  = mqtt.connect(options);
   client.publish(topic, msg);
   client.end();
 }

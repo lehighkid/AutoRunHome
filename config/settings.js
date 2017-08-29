@@ -20,7 +20,11 @@ module.exports = {
     zwavetopic: 'zwave/{0}/{1}/{2}',
     horntopic: 'goal/{0}/{1}',
     grptopic: 'group/{0}/{1}',
-    broker: 'mqtt://10.0.1.13:1883',
+    host: 'acdrago.com',
+    port: '8883',
+    key: '/users/aarondrago/CA/private/local.client.key',
+    cert: '/users/aarondrago/CA/certs/local.client.crt',
+    ca: '/users/aarondrago/CA/ca/ca.crt',
     sonofftopic: 'cmnd/{0}/power{1}',
     ospitopic: 'ospi/control/{0}/{1}/{2}'
   },
