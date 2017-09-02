@@ -16,7 +16,7 @@ var options = {
   ca: fs.readFileSync(settings.mqtt.ca),
   protocol: 'mqtts',    //also add this
   //protocolId: 'MQIsdp',
-  secureProtocol: 'TLSv1_method',
+  secureProtocol: 'TLSv1_1_method',
   //protocolVersion: 3
   //rejectUnauthorized: false
 };

@@ -36,6 +36,14 @@ module.exports = {
     httpNodeRoot: "/api",
     userDir: "/Users/aarondrago/.nodered-i/",
     nodesDir: '/Users/aarondrago/.nodered-i/nodes',
-    functionGlobalContext: {/*'guidModule':require('guid')*/ }    // enables global context
+    functionGlobalContext: {/*'guidModule':require('guid')*/ }/*,    // enables global context,
+    adminAuth: require('node-red-auth-github')({
+        clientID: "7424bed493e489e6ecb5",
+        clientSecret: "e9f1da1647b87cbc0957ab61c71f5e6830e03733",
+        baseURL: "http://127.0.0.1:3001/red",
+        users: [
+           { username: "lehighkid",permissions: ["*"]}
+        ]
+    })*/
   }
 };
